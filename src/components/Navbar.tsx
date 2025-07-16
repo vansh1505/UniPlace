@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { motion } from "motion/react"
 import { Button } from "@/components/ui/button"
@@ -17,20 +18,9 @@ const Navbar = () => {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 {/* <h1 className="text-2xl font-bold text-blue-600">UniPlace</h1> */}
+                <Link href="/">
                 <Image src="/logo.png" alt="UniPlace Logo" width={150} height={50} />
-              </div>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-8">
-                <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  Features
-                </a>
-                <a href="#how-it-works" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  How It Works
-                </a>
-                <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  Testimonials
-                </a>
+                </Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -49,4 +39,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default Navbar;

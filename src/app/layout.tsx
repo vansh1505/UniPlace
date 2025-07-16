@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UniPlace - Your Gateway to Dream Career",
-  description: "Connect with top companies, discover exclusive opportunities, and land your perfect job through our intelligent campus placement platform.",
+  title: "UniPlace - Your Gateway to Smarter Placements",
+  description:
+    "Simplify your placement journey with UniPlace — manage drives, track applications, and unlock career opportunities with one centralized platform.",
 };
 
 export default function RootLayout({
@@ -27,7 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

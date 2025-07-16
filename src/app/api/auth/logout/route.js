@@ -1,19 +1,11 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export async function GET() {
+export async function GET(req) {
     try {
-        const cookieStore = cookies();
-
-        cookieStore.set("token", "", {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            path: "/",
-            maxAge: 0,
-        });
-
-        return NextResponse.redirect(new URL("/login", req.url));
+        const cookieStore = await cookies();
+        cookieStore.delete("token");
+        return NextResponse.redirect(new URL("/", req.url));
 
     } catch (error) {
         console.error("Logout error:", error.message);

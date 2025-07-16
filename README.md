@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 UniPlace — Smart Campus Placement Management System
 
-## Getting Started
+UniPlace is a full-stack, enterprise-grade platform built to modernize the campus placement process for students, placement cells, and recruiters. It streamlines eligibility filtering, drive management, resume uploads, shortlisting, and attendance — all in one unified system designed for real-world university needs.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Key Features
+
+- 🔐 Secure login/signup with JWT + HttpOnly cookies  
+- 📋 Smart eligibility filtering based on CGPA, backlogs, and other criteria  
+- 📄 Resume upload and student profile system  
+- 🗓️ Centralized dashboard for managing and applying to drives  
+- ✅ Recruiter-side shortlisting (coming soon)  
+- 📧 Email notifications for selections and updates  
+- 🧾 ERP attendance syncing architecture  
+- 💻 Fully responsive UI for desktop and mobile  
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- **Next.js (App Router)**
+- **Tailwind CSS** for utility-first styling  
+- **ShadCN UI** for clean components
+
+### Backend
+- **Next.js API routes** 
+- **MongoDB Atlas** with **Mongoose** for ODM
+- **JWT (via `jose`)** for secure token-based auth
+- **Secure Cookies** with middleware route protection
+
+### Dev & Deployment
+- Deployed on **Vercel**
+- `.env.local` for environment config
+
+---
+
+## 📁 Project Structure
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+src/
+├── app/                  → Pages & API (App Router)
+│   ├── api/auth/         → Signup, login, logout routes
+│   ├── dashboard/        → Student dashboard (protected)
+│   └── layout.tsx        → Shared layout with Navbar/Footer
+├── components/           → UI components
+├── lib/                  → DB and auth utilities
+├── models/               → Mongoose schemas
+middleware.js             → Global auth middleware
+public/                   → Static files (logo, favicon)
+.env.local                → Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🔒 Authentication & Middleware
 
-To learn more about Next.js, take a look at the following resources:
+- JWT tokens stored in **HttpOnly cookies**  
+- Middleware verifies the token and protects all `/dashboard/*` routes  
+- Secure redirect to `/login` on invalid or missing token  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 👨‍💻 About the Creator
 
-## Deploy on Vercel
+**Vansh Sharma**  
+B.Tech CSE student, Galgotias University  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+I built UniPlace to solve the inefficiencies I personally experienced in the placement process. The goal is to bring automation, clarity, and speed to campus placements using modern full-stack development.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📌 Status
+
+> ✅ Actively developing.  
+
+---

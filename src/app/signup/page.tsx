@@ -89,7 +89,6 @@ export default function SignupPage() {
     e.preventDefault()
     if (validateForm()) {
       // Handle signup logic here
-      // console.log("Signup form submitted:", formData)
       const res = fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -100,12 +99,18 @@ export default function SignupPage() {
           email: formData.email,
           password: formData.password,
         }),
+      }).then((res) => res.json())
+        .then((data) => {
+        if (data.success) {
+          // Handle successful signup (e.g., redirect to dashboard)
+          window.location.href = "/dashboard"
+        }
       })
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+    <div className="mt-4 min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
       <div className="max-w-md w-full space-y-8">
         {/* Back to Home */}
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>

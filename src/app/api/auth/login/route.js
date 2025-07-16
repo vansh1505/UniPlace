@@ -3,7 +3,10 @@ import Student from "@/models/student";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
+import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+
+dotenv.config();
 
 export async function POST(req) {
   try {

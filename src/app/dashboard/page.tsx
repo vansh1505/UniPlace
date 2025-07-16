@@ -1,30 +1,32 @@
-import React from "react";
-import Link from "next/link";
-const page = () => {
-  return (
-    <>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-md w-full space-y-8">
-          {/* Content goes here */}
-          <h1 className="text-2xl font-bold text-gray-900">
-            Welcome to the Dashboard
-          </h1>
-          <p className="text-gray-600">
-            This is your dashboard where you can manage your account and
-            settings.
-          </p>
-          <Link
-            href="/api/auth/logout"
-            className="text-blue-600 hover:text-blue-800 transition-colors"
-          >
-            <button className="mt-4 bg-blue-600 hover:bg-blue-800 duration-100 text-white py-2 px-4 rounded cursor-pointer">
-              Logout
-            </button>
-          </Link>
-        </div>
-      </div>
-    </>
-  );
-};
 
-export default page;
+import { Button } from "@/components/ui/button";
+import { getUser } from "@/lib/auth";
+import { LogOut } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
+export default async function DashboardPage() {
+  const user = await getUser() as { name: string; email: string }
+  if (!user) {
+    redirect("/login");
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+      <h1 className="text-3xl font-bold mb-4">Welcome, {user.name}!</h1>
+      <p className="text-gray-700">This is your dashboard. Here you can manage your account and view your details.</p>
+      {/* Additional dashboard content can go here */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold mb-4">Your Details</h2>
+        <p className="text-gray-600">Email: {user.email}</p>
+        <Link href="/api/auth/logout">
+          <Button className="mt-4 bg-red-600 hover:bg-red-700 text-white cursor-pointer">
+            <LogOut className="" /> Logout
+          </Button>
+        </Link>
+        {/* More user details can be displayed here */}
+      </div>
+    </div>
+
+  );
+}
