@@ -17,7 +17,30 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "UniPlace - Your Gateway to Smarter Placements",
   description:
-    "Simplify your placement journey with UniPlace — manage drives, track applications, and unlock career opportunities with one centralized platform.",
+    "Simplify your campus placement journey with UniPlace — manage company drives, track your applications, get notified, and prepare smartly for career opportunities.",
+  metadataBase: new URL("https://uniplace.vercel.app"),
+  openGraph: {
+    title: "UniPlace - Smarter Campus Placements",
+    description:
+      "A centralized platform for students, companies, and placement cells. Automate and streamline the end-to-end placement process.",
+    url: "https://uniplace.vercel.app",
+    siteName: "UniPlace",
+    locale: "en_IN",
+    type: "website",
+  },
+  keywords: [
+    "UniPlace",
+    "uniplace",
+    "uni place",
+    "Campus Placement System",
+    "Placement Dashboard",
+    "College ERP Integration",
+    "Galgotias University",
+    "Jobs",
+    "Internships",
+    "Student Portal",
+  ],
+  authors: [{ name: "Vansh", url: "https://uniplace.vercel.app" }],
 };
 
 export default function RootLayout({
