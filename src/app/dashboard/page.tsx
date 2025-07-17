@@ -29,7 +29,12 @@ export default function DashboardPage() {
     email: string;
   };
 
-  const user: User = useUser();
+  const user: User | null = useUser();
+
+  if (!user) {
+    // You can show a loading spinner or redirect here if user is null
+    return null;
+  }
 
   return (
     <DashboardLayout user={user}>

@@ -76,7 +76,7 @@ export function EnhancedSidebar({
     collapsed: {
       width: "5rem",
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 300,
         damping: 40,
       },
@@ -84,7 +84,7 @@ export function EnhancedSidebar({
     expanded: {
       width: "18rem",
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 300,
         damping: 40,
       },
