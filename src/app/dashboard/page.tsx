@@ -1,32 +1,71 @@
+"use client";
 
-import { Button } from "@/components/ui/button";
-import { getUser } from "@/lib/auth";
-import { LogOut } from "lucide-react";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { motion } from "framer-motion";
+import { useUser } from "@/app/dashboard/context/UserCtx";
+import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
+import { WelcomeHeader } from "@/components/dashboard/welcome-header";
+import { StatsCards } from "@/components/dashboard/stats-cards";
+import { UpcomingDrives } from "@/components/dashboard/upcoming-drives";
+import { RecentActivity } from "@/components/dashboard/recent-activity";
+import { QuickActions } from "@/components/dashboard/quick-actions";
 
-export default async function DashboardPage() {
-  const user = await getUser() as { name: string; email: string }
-  if (!user) {
-    redirect("/login");
-  }
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+export default function DashboardPage() {
+  type User = {
+    name: string;
+    email: string;
+  };
+
+  const user: User = useUser();
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-      <h1 className="text-3xl font-bold mb-4">Welcome, {user.name}!</h1>
-      <p className="text-gray-700">This is your dashboard. Here you can manage your account and view your details.</p>
-      {/* Additional dashboard content can go here */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">Your Details</h2>
-        <p className="text-gray-600">Email: {user.email}</p>
-        <Link href="/api/auth/logout">
-          <Button className="mt-4 bg-red-600 hover:bg-red-700 text-white cursor-pointer">
-            <LogOut className="" /> Logout
-          </Button>
-        </Link>
-        {/* More user details can be displayed here */}
-      </div>
-    </div>
+    <DashboardLayout user={user}>
+      <motion.div
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+        className="space-y-8 scrollbar-hide h-screen overflow-hidden" //remove these classes exept space-y-8
+      >
+        <motion.div variants={fadeInUp}>
+          <WelcomeHeader user={user} />
+        </motion.div>
 
+
+        {/* remove this after complition of dashboard */}
+        <p
+          className="text-gray-900 font-semibold text-center pt-[20vh] h-full w-[90vw] text-xl absolute z-10 backdrop-blur-xs"
+        >
+          Placement insights coming soon. Your personalized dashboard is under construction.
+        </p>
+
+        <motion.div variants={fadeInUp}>
+          <StatsCards />
+        </motion.div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          <motion.div variants={fadeInUp} className="xl:col-span-2">
+            <UpcomingDrives />
+          </motion.div>
+
+          <motion.div variants={fadeInUp} className="space-y-8">
+            <QuickActions />
+            <RecentActivity />
+          </motion.div>
+        </div>
+      </motion.div>
+    </DashboardLayout>
   );
 }

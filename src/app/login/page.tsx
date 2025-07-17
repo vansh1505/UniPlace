@@ -8,6 +8,7 @@ import { Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import toast from "react-hot-toast"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -78,6 +79,7 @@ export default function LoginPage() {
         .then((data) => {
           if (data.success) {
             // Handle successful login (e.g., redirect to dashboard)
+            toast.success("Welcome back!");
             window.location.href = "/dashboard"
           } else {
             // Handle login error
@@ -86,9 +88,10 @@ export default function LoginPage() {
               email: data.message || "Invalid email or password",
               password: data.message || "Invalid email or password",
             }))
+            toast.error(data.message || "Login failed. Please try again.")
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setErrors((prev) => ({
             ...prev,
             email: "An error occurred. Please try again.",
@@ -218,7 +221,7 @@ export default function LoginPage() {
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
                 type="submit"
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg transition-colors"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg transition-colors cursor-pointer"
                 onClick={handleSubmit}
               >
                 Sign In

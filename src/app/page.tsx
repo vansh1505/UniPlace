@@ -3,6 +3,9 @@
 import { motion } from "motion/react"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
+
 import Link from "next/link"
 
 const fadeInUp = {
@@ -23,7 +26,7 @@ export default function LandingPage() {
   return (
     <div className="bg-white">
       {/* Header */}
-      {/* <Navbar /> */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center bg-gradient-to-b from-blue-50 to-blue-200">
@@ -66,7 +69,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

@@ -9,6 +9,7 @@ import { Eye, EyeOff, Mail, Lock, User, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import toast from "react-hot-toast"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -104,6 +105,14 @@ export default function SignupPage() {
         if (data.success) {
           // Handle successful signup (e.g., redirect to dashboard)
           window.location.href = "/dashboard"
+          toast.success("Account created successfully!")
+        } else {
+          // Handle signup error
+          setErrors((prev) => ({
+            ...prev,
+            email: data.message || "An error occurred. Please try again.",
+          }))
+          toast.error(data.message || "Signup failed. Please try again.")
         }
       })
     }
@@ -305,7 +314,7 @@ export default function SignupPage() {
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
                 type="submit"
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg transition-colors"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg transition-colors cursor-pointer"
                 onClick={handleSubmit}
               >
                 Create Account
