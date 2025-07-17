@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { FileText, Upload, CheckCircle, XCircle, Clock } from "lucide-react"
 
 const activities = [

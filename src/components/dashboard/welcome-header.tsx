@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { Calendar, Clock, TrendingUp } from "lucide-react"
 
 export function WelcomeHeader( { user } : { user: { name: string } }) {

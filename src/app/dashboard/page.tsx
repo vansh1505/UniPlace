@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useUser } from "@/app/dashboard/context/UserCtx";
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
 import { WelcomeHeader } from "@/components/dashboard/welcome-header";
