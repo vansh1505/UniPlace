@@ -121,7 +121,9 @@ export function EnhancedSidebar({
         {/* Header */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
           <div className="flex items-center space-x-1">
-            <Image src="/favicon.ico" alt="Logo" height={45} width={45} />
+            <Link href="/">
+              <Image src="/favicon.ico" alt="Logo" height={45} width={45} />
+            </Link>
             <AnimatePresence>
               {isExpanded && (
                 <motion.h1

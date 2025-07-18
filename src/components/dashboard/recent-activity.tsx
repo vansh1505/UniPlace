@@ -13,42 +13,6 @@ const activities = [
     icon: FileText,
     color: "bg-blue-500",
   },
-  {
-    id: 2,
-    type: "resume",
-    title: "Resume Updated",
-    description: "Added new project details",
-    time: "1 day ago",
-    icon: Upload,
-    color: "bg-green-500",
-  },
-  {
-    id: 3,
-    type: "shortlist",
-    title: "Shortlisted",
-    description: "Microsoft Product Manager role",
-    time: "2 days ago",
-    icon: CheckCircle,
-    color: "bg-emerald-500",
-  },
-  {
-    id: 4,
-    type: "rejection",
-    title: "Application Update",
-    description: "Amazon Data Scientist - Not selected",
-    time: "3 days ago",
-    icon: XCircle,
-    color: "bg-red-500",
-  },
-  {
-    id: 5,
-    type: "pending",
-    title: "Under Review",
-    description: "Meta Frontend Developer application",
-    time: "4 days ago",
-    icon: Clock,
-    color: "bg-yellow-500",
-  },
 ]
 
 export function RecentActivity() {
@@ -57,7 +21,17 @@ export function RecentActivity() {
       <div className="p-6 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
       </div>
-      <div className="p-6">
+
+      {/* Under construction tab */}
+      <div>
+        <div className="p-6">
+          <div className="flex items-center justify-center">
+            <p className="text-gray-500 text-center">This section is under development!</p>
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="p-6">
         <div className="space-y-4">
           {activities.map((activity, index) => (
             <motion.div
@@ -78,7 +52,7 @@ export function RecentActivity() {
             </motion.div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

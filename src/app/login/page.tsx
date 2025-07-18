@@ -1,73 +1,82 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { motion } from "motion/react"
-import { Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import Link from "next/link"
-import toast from "react-hot-toast"
+import { useState } from "react";
+import { motion } from "motion/react";
+import { Eye, EyeOff, Mail, Lock, ArrowLeft, LoaderCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.6 },
-}
+};
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  })
+    rememberMe: false,
+  });
   const [errors, setErrors] = useState({
     email: "",
     password: "",
-  })
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
+    }));
     // Clear error when user starts typing
     if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({
         ...prev,
         [name]: "",
-      }))
+      }));
     }
-  }
+  };
 
   const validateForm = () => {
     const newErrors = {
       email: "",
       password: "",
-    }
+    };
 
     if (!formData.email) {
-      newErrors.email = "Email is required"
+      newErrors.email = "Email is required";
+      setIsSubmitting(false);
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email"
+      newErrors.email = "Please enter a valid email";
+      setIsSubmitting(false);
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required"
+      newErrors.password = "Password is required";
+      setIsSubmitting(false);
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters"
+      newErrors.password = "Password must be at least 6 characters";
+      setIsSubmitting(false);
     }
 
-    setErrors(newErrors)
-    return !newErrors.email && !newErrors.password
-  }
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.password;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrors({ email: "", password: "" });
+
     if (validateForm()) {
-      //console.log("Login form submitted:", formData)
       fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -78,17 +87,17 @@ export default function LoginPage() {
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            // Handle successful login (e.g., redirect to dashboard)
             toast.success("Welcome back!");
-            window.location.href = "/dashboard"
+            window.location.href = "/dashboard";
           } else {
             // Handle login error
             setErrors((prev) => ({
               ...prev,
               email: data.message || "Invalid email or password",
               password: data.message || "Invalid email or password",
-            }))
-            toast.error(data.message || "Login failed. Please try again.")
+            }));
+            setIsSubmitting(false);
+            toast.error(data.message || "Login failed. Please try again.");
           }
         })
         .catch(() => {
@@ -96,17 +105,26 @@ export default function LoginPage() {
             ...prev,
             email: "An error occurred. Please try again.",
             password: "An error occurred. Please try again.",
-          }))
-        })
+          }));
+          setIsSubmitting(false);
+          toast.error("An error occurred. Please try again.");
+        });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="mt-18 max-w-md w-full space-y-8">
         {/* Back to Home */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Link
+            href="/"
+            className="inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors"
+          >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Home
           </Link>
@@ -115,8 +133,12 @@ export default function LoginPage() {
         {/* Header */}
         <motion.div {...fadeInUp} className="text-center">
           <h1 className="text-3xl font-bold text-blue-600 mb-2">UniPlace</h1>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-          <p className="text-gray-600">Sign in to continue your career journey</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Welcome Back
+          </h2>
+          <p className="text-gray-600">
+            Sign in to continue your career journey
+          </p>
         </motion.div>
 
         {/* Login Form */}
@@ -128,7 +150,10 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div className="form-group">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email Address
               </label>
               <div className="relative">
@@ -141,7 +166,11 @@ export default function LoginPage() {
                   type="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`pl-10 h-12 ${errors.email ? "border-red-500 focus:border-red-500" : "border-gray-300 focus:border-blue-500"}`}
+                  className={`pl-10 h-12 ${
+                    errors.email
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:border-blue-500"
+                  }`}
                   placeholder="Enter your email"
                 />
               </div>
@@ -158,7 +187,10 @@ export default function LoginPage() {
 
             {/* Password Field */}
             <div className="form-group">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -171,13 +203,17 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`pl-10 pr-10 h-12 ${errors.password ? "border-red-500 focus:border-red-500" : "border-gray-300 focus:border-blue-500"}`}
+                  className={`pl-10 pr-10 h-12 ${
+                    errors.password
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:border-blue-500"
+                  }`}
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
@@ -205,13 +241,23 @@ export default function LoginPage() {
                   name="remember-me"
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  checked={formData.rememberMe}
+                  onChange={(e) =>
+                    setFormData({ ...formData, rememberMe: e.target.checked })
+                  }
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-700"
+                >
                   Remember me
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="text-blue-600 hover:text-blue-700 transition-colors">
+                <a
+                  href="#"
+                  className="text-blue-600 hover:text-blue-700 transition-colors"
+                >
                   Forgot password?
                 </a>
               </div>
@@ -221,10 +267,20 @@ export default function LoginPage() {
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
                 type="submit"
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg transition-colors cursor-pointer"
+                disabled={isSubmitting}
+                className={`w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg transition-colors cursor-pointer ${
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 onClick={handleSubmit}
               >
-                Sign In
+                {isSubmitting ? (
+                  <p className="flex items-center justify-center gap-2">
+                    <LoaderCircle className="h-5 w-5 animate-spin" />
+                    Logging in...
+                  </p>
+                ) : (
+                  "Sign In"
+                )}
               </Button>
             </motion.div>
           </form>
@@ -236,16 +292,18 @@ export default function LoginPage() {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
               </div>
             </div>
           </div>
 
           {/* Social Login */}
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="mt-6 grid gap-3">
             <Button
               variant="outline"
-              className="h-12 border-gray-300 hover:bg-gray-50 transition-colors bg-transparent"
+              className="h-12 border-gray-300 hover:bg-gray-50 transition-colors bg-transparent cursor-pointer"
             >
               <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
                 <path
@@ -267,28 +325,26 @@ export default function LoginPage() {
               </svg>
               Google
             </Button>
-            <Button
-              variant="outline"
-              className="h-12 border-gray-300 hover:bg-gray-50 transition-colors bg-transparent"
-            >
-              <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-              </svg>
-              Twitter
-            </Button>
           </div>
         </motion.div>
 
         {/* Sign Up Link */}
-        <motion.div {...fadeInUp} transition={{ delay: 0.4 }} className="text-center">
+        <motion.div
+          {...fadeInUp}
+          transition={{ delay: 0.4 }}
+          className="text-center"
+        >
           <p className="text-gray-600">
             Don't have an account?{" "}
-            <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
+            <Link
+              href="/signup"
+              className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+            >
               Sign up here
             </Link>
           </p>
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

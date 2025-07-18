@@ -5,11 +5,12 @@ import type React from "react"
 import { useState } from "react"
 import { motion } from "motion/react"
 import Image from "next/image"
-import { Eye, EyeOff, Mail, Lock, User, ArrowLeft } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, LoaderCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import toast from "react-hot-toast"
+import { p } from "motion/react-client"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -20,6 +21,8 @@ const fadeInUp = {
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -70,16 +73,21 @@ export default function SignupPage() {
 
     if (!formData.password) {
       newErrors.password = "Password is required"
+      setIsSubmitting(false);
     } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters"
+      setIsSubmitting(false);
     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
       newErrors.password = "Password must contain uppercase, lowercase, and number"
+      setIsSubmitting(false);
     }
 
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password"
+      setIsSubmitting(false);
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match"
+      setIsSubmitting(false);
     }
 
     setErrors(newErrors)
@@ -88,32 +96,31 @@ export default function SignupPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
     if (validateForm()) {
-      // Handle signup logic here
       const res = fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
+        body: JSON.stringify(formData),
       }).then((res) => res.json())
         .then((data) => {
         if (data.success) {
-          // Handle successful signup (e.g., redirect to dashboard)
-          window.location.href = "/dashboard"
           toast.success("Account created successfully!")
+          window.location.href = "/dashboard"
         } else {
-          // Handle signup error
+          setIsSubmitting(false)
           setErrors((prev) => ({
             ...prev,
             email: data.message || "An error occurred. Please try again.",
           }))
           toast.error(data.message || "Signup failed. Please try again.")
         }
+      })
+      .catch(() => {
+        setIsSubmitting(false)
+        toast.error("An error occurred. Please try again.")
       })
     }
   }
@@ -314,10 +321,18 @@ export default function SignupPage() {
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
                 type="submit"
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg transition-colors cursor-pointer"
+                className={`w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg transition-colors cursor-pointer ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+                disabled={isSubmitting}
                 onClick={handleSubmit}
               >
-                Create Account
+                {isSubmitting ? (
+                  <p className="flex items-center justify-center gap-2">
+                    <LoaderCircle className="animate-spin h-5 w-5 mr-2" />
+                    Creating Account...
+                  </p>
+                ) : (
+                  "Create Account"
+                )}
               </Button>
             </motion.div>
           </form>

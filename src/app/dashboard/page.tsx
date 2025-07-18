@@ -8,6 +8,7 @@ import { StatsCards } from "@/components/dashboard/stats-cards";
 import { UpcomingDrives } from "@/components/dashboard/upcoming-drives";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { QuickActions } from "@/components/dashboard/quick-actions";
+import { p } from "motion/react-client";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -32,8 +33,7 @@ export default function DashboardPage() {
   const user: User | null = useUser();
 
   if (!user) {
-    // You can show a loading spinner or redirect here if user is null
-    return null;
+    return <p className="text-center text-red-500">User not found. Please log in.</p>;
   }
 
   return (
@@ -42,22 +42,10 @@ export default function DashboardPage() {
         variants={staggerContainer}
         initial="initial"
         animate="animate"
-        className="space-y-8 scrollbar-hide h-screen overflow-hidden" //remove these classes exept space-y-8
+        className="space-y-8"
       >
         <motion.div variants={fadeInUp}>
           <WelcomeHeader user={user} />
-        </motion.div>
-
-
-        {/* remove this after complition of dashboard */}
-        <p
-          className="text-gray-900 font-semibold text-center pt-[20vh] h-full w-[90vw] text-xl absolute z-10 backdrop-blur-xs"
-        >
-          Placement insights coming soon. Your personalized dashboard is under construction.
-        </p>
-
-        <motion.div variants={fadeInUp}>
-          <StatsCards />
         </motion.div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">

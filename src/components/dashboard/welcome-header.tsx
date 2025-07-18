@@ -26,7 +26,7 @@ export function WelcomeHeader( { user } : { user: { name: string } }) {
             transition={{ duration: 0.5 }}
             className="text-3xl lg:text-4xl font-bold mb-3"
           >
-            Hi {user.name}, here's your placement overview
+            Hi {user.name.split(" ")[0]}, here's your placement overview
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

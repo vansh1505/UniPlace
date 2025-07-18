@@ -22,26 +22,52 @@ export async function POST(req) {
     if (!passwordMatch) {
       return NextResponse.json({ error: "Incorrect Username or Password" }, { status: 401 });
     }
-
+    
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const token = await new SignJWT({
-      id: user._id.toString(),
-      name: user.name,
-      email: user.email
-    })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setIssuedAt()
-      .setExpirationTime('7d')
-      .sign(secret);
-
     const cookieStore = await cookies();
-    cookieStore.set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60, // 7 days
-    });
+
+    if(data.rememberMe) {
+      const token = await new SignJWT({
+        id: user._id.toString(),
+        name: user.name,
+        email: user.email,
+        college: user.college,
+        role: user.role
+      })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('7d')
+        .sign(secret);
+
+        cookieStore.set("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          path: "/",
+          maxAge: 7 * 24 * 60 * 60, // 7 days
+        });
+    } else {
+      const token = await new SignJWT({
+        id: user._id.toString(),
+        name: user.name,
+        email: user.email,
+        college: user.college,
+        role: user.role
+      })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('1h')
+        .sign(secret);
+
+        cookieStore.set("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          path: "/",
+          maxAge: 60 * 60, // 1 hour
+        });
+    }
+
 
     return NextResponse.json({ success: true, student: user.name }, { status: 200 });
 
