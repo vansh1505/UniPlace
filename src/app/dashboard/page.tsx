@@ -8,7 +8,6 @@ import { StatsCards } from "@/components/dashboard/stats-cards";
 import { UpcomingDrives } from "@/components/dashboard/upcoming-drives";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { QuickActions } from "@/components/dashboard/quick-actions";
-import { p } from "motion/react-client";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },

@@ -8,18 +8,13 @@ import {
   FileText,
   Briefcase,
   Upload,
-  Calendar,
-  HelpCircle,
   Bell,
   ChevronDown,
   User,
-  Settings,
   LogOut,
   ChevronLeft,
-  ChevronRight,
   Bot,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -48,6 +43,12 @@ const navigation = [
     name: "AI Resume Builder",
     href: "/dashboard/ai-resume",
     icon: Bot,
+    current: false,
+  },
+  {
+    name: "View Profile",
+    href: "/dashboard/profile",
+    icon: User,
     current: false,
   }
 ];
