@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { Zap, Brain, Target, Sparkles } from "lucide-react"
 
 interface AIResumeHeaderProps {

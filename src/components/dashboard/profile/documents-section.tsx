@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { FileText, Upload, Download, Eye, Trash2, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 

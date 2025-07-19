@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
 import { DrivesGrid } from "@/components/dashboard/drives/drives-grid";
 import { DrivesSidebar } from "@/components/dashboard/drives/drives-sidebar";

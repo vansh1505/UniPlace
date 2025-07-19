@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
 import { ApplicationsSubHeader } from "@/components/dashboard/applications/applications-sub-header";
 // import { ApplicationsTimeline } from "@/components/dashboard/applications/applications-timeline";

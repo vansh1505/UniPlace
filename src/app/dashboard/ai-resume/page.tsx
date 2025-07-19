@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout"
 import { AIResumeHeader } from "@/components/dashboard/ai-resume/ai-resume-header"
 import { AIResumeWizard } from "@/components/dashboard/ai-resume/ai-resume-wizard"

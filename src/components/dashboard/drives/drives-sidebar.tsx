@@ -1,7 +1,6 @@
 "use client"
 
-import { MapPin, DollarSign, GraduationCap, Building2 } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { Building2 } from "lucide-react"
 
 interface DrivesSidebarProps {
   filters: any

@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { FileText, Award, TrendingUp, Calendar } from "lucide-react"
 
 const stats = [

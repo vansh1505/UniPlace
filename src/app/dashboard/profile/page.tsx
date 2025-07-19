@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
 import { ProfileHeader } from "@/components/dashboard/profile/profile-header";
 import { PersonalInformation } from "@/components/dashboard/profile/personal-information";
