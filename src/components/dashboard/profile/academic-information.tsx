@@ -6,19 +6,19 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function AcademicInformation() {
+export function AcademicInformation({ user } : any) {
   const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState({
-    collegeName: "Indian Institute of Technology, Delhi",
-    admissionNumber: "2021CS10123",
-    course: "Bachelor of Technology",
-    branch: "Computer Science and Engineering",
-    currentYear: "3rd Year",
-    currentSemester: "6th Semester",
-    cgpa: "8.75",
-    percentage: "87.5",
-    expectedGraduation: "2025-05",
-    backlogs: "0",
+    collegeName: user.collegeName || "",
+    admissionNumber: user.admnno || "",
+    course: "",
+    branch: "",
+    currentYear: "",
+    currentSemester: "",
+    cgpa: "",
+    percentage: "",
+    expectedGraduation: "",
+    backlogs: "",
     // 12th Grade
     twelfthBoard: "CBSE",
     twelfthSchool: "Delhi Public School",
@@ -55,7 +55,7 @@ export function AcademicInformation() {
           <h2 className="text-xl font-semibold text-gray-900">Academic Information</h2>
         </div>
         {!isEditing && (
-          <Button onClick={() => setIsEditing(true)} size="sm" variant="outline" className="bg-transparent">
+          <Button onClick={() => setIsEditing(true)} size="sm" variant="outline" className="bg-transparent" disabled>
             <Edit3 className="h-4 w-4 mr-2" />
             Edit
           </Button>
@@ -104,7 +104,7 @@ export function AcademicInformation() {
               )}
             </div>
 
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="course" className="text-sm font-medium text-gray-700">
                 Course
               </Label>
@@ -255,11 +255,13 @@ export function AcademicInformation() {
                 </p>
               )}
             </div>
-          </div>
+            */}
+          </div> 
         </div>
 
         {/* 12th Grade */}
-        <div className="border-t border-gray-200 pt-6">
+        
+        {/* <div className="border-t border-gray-200 pt-6">
           <h3 className="text-lg font-medium text-gray-900 mb-4">12th Grade</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="space-y-2">
@@ -328,9 +330,10 @@ export function AcademicInformation() {
               )}
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* 10th Grade */}
+{/* 
         <div className="border-t border-gray-200 pt-6">
           <h3 className="text-lg font-medium text-gray-900 mb-4">10th Grade</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -400,7 +403,7 @@ export function AcademicInformation() {
               )}
             </div>
           </div>
-        </div>
+        </div> */}
 
         {isEditing && (
           <div className="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">

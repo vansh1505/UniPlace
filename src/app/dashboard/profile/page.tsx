@@ -59,26 +59,26 @@ export default function ProfilePage() {
           <ProfileHeader user={user} />
         </motion.div>
 
-        {/* <motion.div variants={fadeInUp}>
+         {/* <motion.div variants={fadeInUp}>
           <ProfileStats />
-        </motion.div>
+        </motion.div> */}
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-1 gap-8">
           <div className="xl:col-span-2 space-y-8">
-            <motion.div variants={fadeInUp}>
+            {/* <motion.div variants={fadeInUp}>
               <PersonalInformation />
-            </motion.div>
+            </motion.div> */}
 
             <motion.div variants={fadeInUp}>
-              <AcademicInformation />
+              <AcademicInformation user={user} />
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            {/* <motion.div variants={fadeInUp}>
               <ContactInformation />
-            </motion.div>
+            </motion.div> */}
           </div>
 
-          <div className="space-y-8">
+          {/* <div className="space-y-8">
             <motion.div variants={fadeInUp}>
               <SkillsAndInterests />
             </motion.div>
@@ -86,8 +86,8 @@ export default function ProfilePage() {
             <motion.div variants={fadeInUp}>
               <DocumentsSection />
             </motion.div>
-          </div>
-        </div> */}
+          </div> */}
+        </div>
 
         <p className="text-center text-gray-500 mt-8">
           Data is currently being migrated to the new profile structure. Please check back later for updates.

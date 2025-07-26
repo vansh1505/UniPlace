@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
-import { motion } from "motion/react"
-import { Upload, User, Briefcase, Calendar } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { motion } from "motion/react";
+import { Upload, User, Briefcase, Calendar, Bot, BotIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const quickActions = [
   {
@@ -27,13 +28,13 @@ const quickActions = [
     href: "/dashboard/drives",
   },
   {
-    title: "Schedule Interview",
-    description: "Manage your interviews",
-    icon: Calendar,
+    title: "AI resume review",
+    description: "Get feedback on your resume",
+    icon: BotIcon,
     color: "bg-orange-500 hover:bg-orange-600",
-    href: "/dashboard/events",
+    href: "/dashboard/ai-resume",
   },
-]
+];
 
 export function QuickActions() {
   return (
@@ -52,22 +53,26 @@ export function QuickActions() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <Button
-                variant="outline"
-                className="w-full h-auto p-4 flex flex-col items-center space-y-2 border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-200 bg-transparent"
-              >
-                <div className={`p-3 rounded-lg ${action.color}`}>
-                  <action.icon className="h-6 w-6 text-white" />
-                </div>
-                <div className="text-center">
-                  <p className="font-medium text-gray-900">{action.title}</p>
-                  <p className="text-sm text-gray-500">{action.description}</p>
-                </div>
-              </Button>
+              <Link href={action.href}>
+                <Button
+                  variant="outline"
+                  className="w-full h-auto p-4 flex flex-col items-center space-y-2 border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all duration-200 bg-transparent cursor-pointer"
+                >
+                  <div className={`p-2 rounded-lg ${action.color}`}>
+                    <action.icon className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="text-center">
+                    <p className="font-medium text-gray-900">{action.title}</p>
+                    <p className="text-xs text-gray-500 text-wrap">
+                      {action.description}
+                    </p>
+                  </div>
+                </Button>
+              </Link>
             </motion.div>
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }

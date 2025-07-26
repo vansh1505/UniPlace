@@ -6,7 +6,7 @@ const studentSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    admno: {
+    admnno: {
         type: String,
         required: true,
         unique: true,
@@ -19,16 +19,16 @@ const studentSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
-    password: {
-        type: String,
-        required: true,
-        minlength: 6
-    },
-    college: {
+    collegeName: {
         type: String,
         enum: ['Galgotias University'],
         required: true,
         trim: true
+    },
+    password: {
+        type: String,
+        required: true,
+        minlength: 6
     },
     role: {
         type: String,

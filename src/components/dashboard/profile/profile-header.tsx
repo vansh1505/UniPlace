@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 
-export function ProfileHeader({user}: { user: { name: string; email: string } }) {
+export function ProfileHeader({user}: { user: { name: string; collegeName: string } }) {
   return (
     <div className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 rounded-2xl p-8 text-white shadow-lg">
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
@@ -36,7 +36,7 @@ export function ProfileHeader({user}: { user: { name: string; email: string } })
                 {user.name}
               </h1>
               <p className="text-blue-100 text-lg font-medium mb-3">
-                {user.email}
+                {user.collegeName}
               </p>
             </div>
           </div>
