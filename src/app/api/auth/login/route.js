@@ -30,8 +30,9 @@ export async function POST(req) {
       const token = await new SignJWT({
         id: user._id.toString(),
         name: user.name,
+        admnno: user.admnno,
         email: user.email,
-        college: user.college,
+        collegeName: user.collegeName,
         role: user.role
       })
         .setProtectedHeader({ alg: 'HS256' })
@@ -50,8 +51,9 @@ export async function POST(req) {
       const token = await new SignJWT({
         id: user._id.toString(),
         name: user.name,
+        admnno: user.admnno,
         email: user.email,
-        college: user.college,
+        collegeName: user.collegeName,
         role: user.role
       })
         .setProtectedHeader({ alg: 'HS256' })

@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "motion/react";
 import { DashboardLayout } from "@/components/dashboard/dashboard-layout";
-import { DrivesGrid } from "@/components/dashboard/drives/drives-grid";
 import { DrivesSidebar } from "@/components/dashboard/drives/drives-sidebar";
 import { useUser } from "../context/UserCtx";
 import { LoaderCircle } from "lucide-react";
+import {useState, useEffect} from "react";
+import { DriveCard } from "@/components/dashboard/DriveCard";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -15,10 +15,40 @@ const fadeInUp = {
 };
 
 export default function DrivesPage() {
+  const [drives, setDrives] = useState([]);
+      const [loading, setLoading] = useState(false);
+    
+      useEffect(() => {
+        const fetchDrives = async () => {
+          setLoading(true);
+          try {
+            const response = await fetch('https://dummyjson.com/c/0f6b-72a2-4d10-a986');
+            if (!response.ok) {
+              throw new Error("Failed to fetch drives");
+            }
+            const data = await response.json();
+            setDrives(data.drive || []);
+          } catch (error) {
+            setDrives([]);
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchDrives();
+      }, []);
+    
+    if (loading) {
+      return <div className="text-center text-gray-600 h-screen flex items-center justify-center">
+        <LoaderCircle className="inline mr-2 animate-spin" />
+        Loading drives...
+      </div>;
+    }
 
   type User = {
     name: string;
     email: string;
+    admnno: string;
+    collegeName: string;
   };
 
   const user: User | null = useUser();
@@ -35,6 +65,7 @@ export default function DrivesPage() {
       <p className="text-center text-red-500">User not found. Please log in.</p>
     );
   }
+  
 
   return (
     <DashboardLayout user={user}>
@@ -52,7 +83,7 @@ export default function DrivesPage() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-600">
-                  1 drives available
+                  {drives.length} drives available
                 </span>
               </div>
             </div>
@@ -67,11 +98,15 @@ export default function DrivesPage() {
 
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           <motion.div {...fadeInUp}>
-            <DrivesSidebar />
+            <DrivesSidebar EligibleDrives={drives.length} />
           </motion.div>
 
           <motion.div {...fadeInUp} className="xl:col-span-3">
-            <DrivesGrid />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {drives.map((drive, index) => (
+                      <DriveCard drive={drive} index={index} />
+                    ))} 
+                </div>
           </motion.div>
         </div>
       </div>
