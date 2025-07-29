@@ -341,7 +341,7 @@ export default function AboutPage() {
                     <Image
                       height={256}
                       width={256}
-                      src="/vansh.jpg"
+                      src="/Vansh.jpg"
                       alt="Creator Profile"
                       className="w-full h-full object-cover rounded-2xl shadow-lg border-4 border-white"
                     />
