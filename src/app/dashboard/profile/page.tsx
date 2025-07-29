@@ -27,12 +27,9 @@ const staggerContainer = {
 };
 
 export default function ProfilePage() {
-  type User = {
-    name: string;
-    email: string;
-  };
 
-  const user: User | null = useUser();
+
+  const user = useUser();
 
   if(user === undefined) {
     return <p className="text-center text-gray-600 h-screen flex items-center justify-center">
@@ -43,7 +40,9 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <p className="text-center text-red-500">User not found. Please log in.</p>
+      <p className="flex items-center justify-center h-screen">
+        user not found
+        </p>
     );
   }
 
@@ -65,9 +64,9 @@ export default function ProfilePage() {
 
         <div className="grid grid-cols-1 xl:grid-cols-1 gap-8">
           <div className="xl:col-span-2 space-y-8">
-            {/* <motion.div variants={fadeInUp}>
-              <PersonalInformation />
-            </motion.div> */}
+            <motion.div variants={fadeInUp}>
+              <PersonalInformation user={user} />
+            </motion.div>
 
             <motion.div variants={fadeInUp}>
               <AcademicInformation user={user} />
@@ -78,20 +77,16 @@ export default function ProfilePage() {
             </motion.div> */}
           </div>
 
-          {/* <div className="space-y-8">
-            <motion.div variants={fadeInUp}>
+          <div className="space-y-8">
+            {/* <motion.div variants={fadeInUp}>
               <SkillsAndInterests />
-            </motion.div>
+            </motion.div> */}
 
-            <motion.div variants={fadeInUp}>
+            {/* <motion.div variants={fadeInUp}>
               <DocumentsSection />
-            </motion.div>
-          </div> */}
+            </motion.div> */}
+          </div>
         </div>
-
-        <p className="text-center text-gray-500 mt-8">
-          Data is currently being migrated to the new profile structure. Please check back later for updates.
-        </p>
 
       </motion.div>
     </DashboardLayout>

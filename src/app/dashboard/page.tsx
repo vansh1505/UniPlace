@@ -8,6 +8,9 @@ import { StatsCards } from "@/components/dashboard/stats-cards";
 import { UpcomingDrives } from "@/components/dashboard/upcoming-drives";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { QuickActions } from "@/components/dashboard/quick-actions";
+import OnboardingModal from "@/components/dashboard/OnboardingModal";
+import { useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -23,19 +26,40 @@ const staggerContainer = {
   },
 };
 
+type User = {
+  name: string;
+  email: string;
+  collegeName: string;
+  admnno: string;
+  profileCompleted: boolean;
+  role: string;
+};
+
 export default function DashboardPage() {
-  type User = {
-    name: string;
-    email: string;
-  };
-
   const user: User | null = useUser();
-
+  const [showModal, setShowModal] = useState(!user?.profileCompleted);
   if (!user) {
-    return <p className="text-center text-red-500">User not found. Please log in.</p>;
+    return (
+      <p className="text-center text-red-600">
+        user not found
+        </p>
+    );
+  }
+  if (user === undefined) {
+    return <p className="text-center text-gray-600 h-screen flex items-center justify-center">
+      <LoaderCircle className="inline mr-2 animate-spin" />
+      Loading user data...
+      </p>;
   }
 
   return (
+    <>
+      {!user?.profileCompleted && (
+        <OnboardingModal
+          isOpen={showModal}
+          user={user}
+        />
+      )}
     <DashboardLayout user={user}>
       <motion.div
         variants={staggerContainer}
@@ -59,5 +83,6 @@ export default function DashboardPage() {
         </div>
       </motion.div>
     </DashboardLayout>
+    </>
   );
 }

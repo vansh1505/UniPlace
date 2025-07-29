@@ -21,18 +21,52 @@ const studentSchema = new mongoose.Schema({
     },
     collegeName: {
         type: String,
-        enum: ['Galgotias University'],
         required: true,
         trim: true
     },
+    academicInfo: {
+        course: {
+            type: String,
+        },
+        branch: {
+            type: String,
+        },
+        cgpa: {
+            type: Number,
+            min: 0,
+            max: 10
+        },
+        backlogs: {
+            type: Number,
+            min: 0
+        },
+        semester: {
+            type: String,
+            min: 1,
+        },
+        yearOfPassing: {
+            type: Number,
+        }
+    },
+
+    resumeURL: {
+        type: String,
+        trim: true
+    },
+
+    profileCompleted: {
+        type: Boolean,
+        default: false,
+    },
+
     password: {
         type: String,
         required: true,
-        minlength: 6
     },
     role: {
         type: String,
-        enum: 'student',
+        enum: ['student'],
+        default: 'student'
     },
 }, {
     timestamps: true

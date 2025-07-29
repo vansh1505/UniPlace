@@ -3,32 +3,39 @@ import Student from "@/models/student";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import { SignJWT } from "jose";
-import {cookies} from "next/headers";
+import { cookies } from "next/headers";
 
 export async function POST(req) {
     try {
         await connectDB();
-        const { name, admnno, email, collegeName, password } = await req.json();
+        const body = await req.json();
+        const { name, admnno, email, collegeName, password } = body;
+
+        if (!name || !admnno || !email || !collegeName || !password) {
+            return NextResponse.json({ message: "All fields are required" }, { status: 400 });
+        }
 
         const exist = await Student.findOne({
-            email: email
-        })
+            admnno
+        });
+
         if (exist) {
             return NextResponse.json({ message: "User already Exists" }, { status: 409 });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const student = new Student({ name, admnno, email, collegeName, password: hashedPassword, role: "student" });
+        const student = new Student({ name, admnno, email, collegeName, password: hashedPassword, role: "student", profileCompleted: false });
         await student.save();
 
         const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-        const token = await new SignJWT({ 
+        const token = await new SignJWT({
             id: student._id.toString(),
             name: student.name,
             email: student.email,
             collegeName: student.collegeName,
             admnno: student.admnno,
-            role: student.role
+            role: student.role,
+            profileCompleted: student.profileCompleted,
         })
             .setProtectedHeader({ alg: 'HS256' })
             .setIssuedAt()
@@ -36,7 +43,7 @@ export async function POST(req) {
             .sign(secret);
 
         // Set the token in a cookie
-        const cookieStore = await cookies();
+        const cookieStore = cookies();
         cookieStore.set("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",

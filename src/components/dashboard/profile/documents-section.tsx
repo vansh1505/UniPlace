@@ -14,42 +14,9 @@ const documents = [
     uploadDate: "2024-01-15",
     status: "Active",
   },
-  {
-    id: 2,
-    name: "Cover_Letter_Template.pdf",
-    type: "Cover Letter",
-    size: "180 KB",
-    uploadDate: "2024-01-10",
-    status: "Draft",
-  },
-  {
-    id: 3,
-    name: "Academic_Transcript.pdf",
-    type: "Transcript",
-    size: "320 KB",
-    uploadDate: "2024-01-05",
-    status: "Verified",
-  },
-  {
-    id: 4,
-    name: "Portfolio_Projects.pdf",
-    type: "Portfolio",
-    size: "1.2 MB",
-    uploadDate: "2024-01-12",
-    status: "Active",
-  },
 ]
 
 export function DocumentsSection() {
-  const [uploadingFile, setUploadingFile] = useState(false)
-
-  const handleFileUpload = () => {
-    setUploadingFile(true)
-    // Simulate file upload
-    setTimeout(() => {
-      setUploadingFile(false)
-    }, 2000)
-  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -73,19 +40,6 @@ export function DocumentsSection() {
           </div>
           <h2 className="text-xl font-semibold text-gray-900">Documents</h2>
         </div>
-        <Button onClick={handleFileUpload} size="sm" className="bg-blue-600 hover:bg-blue-700" disabled={uploadingFile}>
-          {uploadingFile ? (
-            <>
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              Uploading...
-            </>
-          ) : (
-            <>
-              <Plus className="h-4 w-4 mr-2" />
-              Upload
-            </>
-          )}
-        </Button>
       </div>
 
       <div className="space-y-4">
@@ -129,16 +83,6 @@ export function DocumentsSection() {
             </div>
           </motion.div>
         ))}
-      </div>
-
-      {/* Upload Area */}
-      <div className="mt-6 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-        <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-        <p className="text-sm text-gray-600 mb-2">Drag and drop files here, or click to browse</p>
-        <p className="text-xs text-gray-500">Supported formats: PDF, DOC, DOCX (Max 5MB)</p>
-        <Button variant="outline" size="sm" className="mt-3 bg-transparent">
-          Choose Files
-        </Button>
       </div>
     </div>
   )
