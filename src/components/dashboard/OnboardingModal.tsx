@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/select";
 import { motion, AnimatePresence } from "motion/react";
 import { CircleCheckBig, LoaderCircle } from "lucide-react";
-
+import { UploadButton, UploadDropzone } from "@/utils/upload-resume";
+import { toast } from "react-hot-toast";
 export default function OnboardingModal({
   isOpen,
   user,
@@ -29,9 +30,11 @@ export default function OnboardingModal({
   const [course, setCourse] = useState("");
   const [semester, setSemester] = useState("");
   const [yearOfPassing, setYearOfPassing] = useState("");
-  const [resume, setResume] = useState<File | null>(null);
+  const [resume, setResume] = useState<boolean>(false);
+  const [resumeURL, setResumeURL] = useState("");
+  const [resumeName, setResumeName] = useState("");
+  const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
-  const [dragActive, setDragActive] = useState(false);
 
   const handleSubmit = async () => {
     try {
@@ -50,7 +53,7 @@ export default function OnboardingModal({
         })
       );
       if (resume) {
-        formData.append("resume", resume);
+        formData.append("resumeURL", resumeURL);
       }
 
       const res = await fetch("/api/onboard", {
@@ -65,34 +68,6 @@ export default function OnboardingModal({
       console.error("Onboarding submit failed:", err);
     } finally {
       setUploading(false);
-    }
-  };
-
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-
-    const files = e.dataTransfer.files;
-    if (files && files[0] && files[0].type === "application/pdf") {
-      setResume(files[0]);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files[0] && files[0].type === "application/pdf") {
-      setResume(files[0]);
     }
   };
 
@@ -228,12 +203,12 @@ export default function OnboardingModal({
                       </SelectTrigger>
 
                       <SelectContent className="w-full">
-                        <SelectItem value="btech">B.Tech</SelectItem>
-                        <SelectItem value="bca">BCA</SelectItem>
-                        <SelectItem value="ece">BBA</SelectItem>
-                        <SelectItem value="eee">MBA</SelectItem>
-                        <SelectItem value="mech">M.Tech</SelectItem>
-                        <SelectItem value="others">Others</SelectItem>
+                        <SelectItem value="B.Tech">B.Tech</SelectItem>
+                        <SelectItem value="BCA">BCA</SelectItem>
+                        <SelectItem value="BBA">BBA</SelectItem>
+                        <SelectItem value="MBA">MBA</SelectItem>
+                        <SelectItem value="M.Tech">M.Tech</SelectItem>
+                        <SelectItem value="Others">Others</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -278,19 +253,21 @@ export default function OnboardingModal({
                       </SelectTrigger>
 
                       <SelectContent className="w-full">
-                        <SelectItem value="CSE">Computer Science</SelectItem>
-                        <SelectItem value="IT">
+                        <SelectItem value="Computer Science">
+                          Computer Science
+                        </SelectItem>
+                        <SelectItem value="Information Technology">
                           Information Technology
                         </SelectItem>
-                        <SelectItem value="ECE">
+                        <SelectItem value="Electronics & Communication">
                           Electronics & Communication
                         </SelectItem>
-                        <SelectItem value="EEE">
+                        <SelectItem value="Electrical & Electronics">
                           Electrical & Electronics
                         </SelectItem>
-                        <SelectItem value="MECH">Mechanical</SelectItem>
-                        <SelectItem value="CIVIL">Civil</SelectItem>
-                        <SelectItem value="others">Others</SelectItem>
+                        <SelectItem value="Mechanical">Mechanical</SelectItem>
+                        <SelectItem value="Civil">Civil</SelectItem>
+                        <SelectItem value="Others">Others</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -330,7 +307,7 @@ export default function OnboardingModal({
                     </label>
                     <Input
                       type="number"
-                      step="0.01"
+                      step="0.1"
                       min="0"
                       max="10"
                       placeholder="8.5"
@@ -370,30 +347,7 @@ export default function OnboardingModal({
                     Upload Resume <span className="text-red-500">*</span>
                   </label>
 
-                  <div
-                    className={`border-2 border-dashed rounded-lg p-6 text-center transition-all cursor-pointer ${
-                      dragActive
-                        ? "border-blue-500 bg-blue-50"
-                        : resume
-                        ? "border-green-500 bg-green-50"
-                        : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
-                    }`}
-                    onDragEnter={handleDrag}
-                    onDragLeave={handleDrag}
-                    onDragOver={handleDrag}
-                    onDrop={handleDrop}
-                    onClick={() =>
-                      document.getElementById("resume-upload")?.click()
-                    }
-                  >
-                    <input
-                      id="resume-upload"
-                      type="file"
-                      accept=".pdf"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-
+                  <div className="border-2 border-dashed rounded-lg p-6 text-center transition-all cursor-pointer">
                     {resume ? (
                       <div className="space-y-2">
                         <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto">
@@ -412,44 +366,25 @@ export default function OnboardingModal({
                           </svg>
                         </div>
                         <p className="text-sm font-medium text-green-700">
-                          {resume.name}
+                          {resumeName || "Resume Uploaded"}
                         </p>
-                        <p className="text-xs text-green-600">
-                          {(resume.size / 1024 / 1024).toFixed(2)} MB
-                        </p>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setResume(null);
-                          }}
-                          className="text-xs text-red-600 hover:text-red-800 underline"
-                        >
-                          Remove file
-                        </button>
                       </div>
                     ) : (
-                      <div className="space-y-2">
-                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
-                          <svg
-                            className="w-6 h-6 text-gray-400"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                            />
-                          </svg>
-                        </div>
-                        <p className="text-sm font-medium text-gray-700">
-                          Drop your resume here or click to browse
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          PDF only • Max 2MB
-                        </p>
+                      <div>
+                        <UploadDropzone
+                          className="bg-blue-300 rounded-2xl text-white font-semibold px-6 py-3"
+                          endpoint="pdfUploader"
+                          onClientUploadComplete={(res) => {
+                            toast.success("Resume uploaded successfully!");
+                            console.log("Files: ", res);
+                            setResume(true);
+                            setResumeURL(res[0].ufsUrl);
+                            setResumeName(res[0].name);
+                          }}
+                          onUploadError={(error: Error) => {
+                            toast.error(`ERROR! ${error.message}`);
+                          }}
+                        />
                       </div>
                     )}
                   </div>

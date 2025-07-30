@@ -18,13 +18,9 @@ const fadeInUp = {
 
 export default function ResumePage() {
   const [activeSection, setActiveSection] = useState<"upload" | "library" | "builder">("upload")
-  type User = {
-    name: string
-    email: string
-  }
 
-  const user: User | null = useUser()
-  
+  const user = useUser()
+
   if (!user) {
     return <p className="text-center text-red-500">User not found. Please log in.</p>
   }
@@ -38,13 +34,18 @@ export default function ResumePage() {
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <motion.div {...fadeInUp} className="xl:col-span-2">
-            {activeSection === "upload" && <ResumeUploadZone />}
-            {activeSection === "library" && <ResumeLibrary />}
-            {activeSection === "builder" && <ResumeBuilder />}
+            {activeSection === "upload" && <ResumeUploadZone userEmail={user.email} />}
+            {activeSection === "library" && <ResumeLibrary user={user} />}
+            {activeSection === "builder" &&
+            //  <ResumeBuilder />
+            <p>This Feature is under development. May appear in future updates.</p>
+             }
           </motion.div>
-
-          <motion.div {...fadeInUp}>
-            <ResumeAnalytics />
+          <motion.div {...fadeInUp} className="relative">
+            <p className="absolute z-10 top-[50%] left-[23%] text-lg font-semibold tracking-wide bg-black/30 px-2 py-1 rounded-lg"> Insights will appear soon</p>
+            <motion.div {...fadeInUp} className="blur-xs">
+              <ResumeAnalytics />
+            </motion.div>
           </motion.div>
         </div>
       </div>

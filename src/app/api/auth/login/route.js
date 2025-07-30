@@ -39,6 +39,7 @@ export async function POST(req) {
       profileCompleted: user.profileCompleted,
       role: user.role,
       ...(user.profileCompleted ? { academicInfo: user.academicInfo } : {}),
+      ...(user.resumeURL ? { resumeURL: user.resumeURL } : {}),
       })
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()

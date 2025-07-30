@@ -106,7 +106,7 @@ export function ResumeAnalytics() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      {/* <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
         <div className="space-y-2">
           <button className="w-full text-left p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -128,7 +128,7 @@ export function ResumeAnalytics() {
             </div>
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

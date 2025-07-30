@@ -10,6 +10,7 @@ export async function PATCH(req) {
 
     const admnno = formData.get("admnno");
     const academicInfoStr = formData.get("academicInfo");
+    const resumeURL = formData.get("resumeURL");
     const academicInfo = JSON.parse(academicInfoStr);
 
     if (!admnno || !academicInfo) {
@@ -19,7 +20,7 @@ export async function PATCH(req) {
     await connectDB();
     const student = await Student.findOneAndUpdate(
       { admnno },
-      { $set: { academicInfo }, profileCompleted: true },
+      { $set: { academicInfo }, profileCompleted: true, resumeURL },
       { new: true }
     );
 
@@ -36,6 +37,7 @@ export async function PATCH(req) {
       admnno: student.admnno,
       role: student.role,
       profileCompleted: student.profileCompleted,
+      resumeURL: student.resumeURL,
       academicInfo: student.academicInfo,
     })
       .setProtectedHeader({ alg: 'HS256' })
