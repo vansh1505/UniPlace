@@ -13,6 +13,7 @@ import {
   User,
   LogOut,
   ChevronLeft,
+  ChevronRight,
   Bot,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -347,6 +348,15 @@ export function EnhancedSidebar({
               )}
             </AnimatePresence>
           </div>
+        </div>
+        {/* Expand/Collapse Toggle */}
+        <div className="px-3 py-2 border-t border-gray-200">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="w-full flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+          >
+            {isExpanded ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+          </button>
         </div>
       </motion.div>
     </div>

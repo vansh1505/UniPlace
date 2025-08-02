@@ -82,9 +82,9 @@ export default function ProfilePage() {
               <SkillsAndInterests />
             </motion.div> */}
 
-            {/* <motion.div variants={fadeInUp}>
-              <DocumentsSection />
-            </motion.div> */}
+            <motion.div variants={fadeInUp}>
+              <DocumentsSection user={user} />
+            </motion.div>
           </div>
         </div>
 

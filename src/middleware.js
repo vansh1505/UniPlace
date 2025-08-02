@@ -5,19 +5,35 @@ import { cookies } from "next/headers";
 export async function middleware(req) {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
+    const url = req.nextUrl.clone();
 
     if (!token) {
-        return NextResponse.redirect(new URL("/login", req.url));
+        url.pathname = "/login";
+        return NextResponse.redirect(url);
     }
 
     try {
         const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-        await jwtVerify(token, secret);
+        const { payload } = await jwtVerify(token, secret);
+
+        // Redirect admin to dashboard/admin only when they hit base dashboard
+        if (payload.role === "admin" && url.pathname === "/dashboard") {
+            url.pathname = "/dashboard/admin";
+            return NextResponse.redirect(url);
+        }
+
+        // Block non-admins from accessing /dashboard/admin
+        if (payload.role !== "admin" && url.pathname.startsWith("/dashboard/admin")) {
+            url.pathname = "/dashboard";
+            return NextResponse.redirect(url);
+        }
+
         return NextResponse.next();
 
     } catch (err) {
         console.log("Invalid token error:", err.message);
-        return NextResponse.redirect(new URL("/login", req.url));
+        url.pathname = "/login";
+        return NextResponse.redirect(url);
     }
 }
 
