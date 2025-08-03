@@ -52,7 +52,7 @@ const scaleIn = {
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-100 to-blue-50">
       {/* Header */}
       <Navbar />
 

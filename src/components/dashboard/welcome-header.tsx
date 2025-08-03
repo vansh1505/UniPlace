@@ -52,10 +52,6 @@ export function WelcomeHeader( { user } : { user: { name: string } }) {
             <Clock className="h-5 w-5 mr-3" />
             <span className="text-sm font-medium">{currentTime}</span>
           </div>
-          <div className="flex items-center text-blue-100">
-            <TrendingUp className="h-5 w-5 mr-3" />
-            <span className="text-sm font-medium">5 new opportunities</span>
-          </div>
         </motion.div>
       </div>
     </div>

@@ -142,7 +142,7 @@ export default function CreateDrivePage() {
   }
 
   return (
-    <div className="ml-64 min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div {...fadeInUp} className="mb-8">

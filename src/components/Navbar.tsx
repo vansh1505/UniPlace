@@ -1,86 +1,150 @@
-"use client"
-import React from 'react'
-import { motion } from "motion/react"
-import { Button } from "@/components/ui/button"
-import Image from 'next/image'
-import Link from "next/link"
+"use client";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
 
 const links = [
-  { href: "/features", label: "Features" },
-  { href: "/solutions", label: "Solutions" },
-  // { href: "/pricing", label: "Pricing" },
-  // { href: "/contact", label: "Contact" }
-]
+  { href: "#features", label: "Features" },
+  { href: "#solutions", label: "Solutions" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#contact", label: "Contact" },
+];
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
-    <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="fixed w-full px-4 lg:px-6 h-16 flex items-center border-b border-gray-100 bg-white/80 backdrop-blur-xl shadow-sm"
+    <>
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-white/30 backdrop-blur-lg shadow-md"
+            : "bg-transparent"
+        }`}
       >
-        <Link className="flex items-center justify-center" href="/">
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.2 }}
-            className="flex items-center"
-          >
-            <Image
-              alt="UniPlace Logo"
-              className="h-8 w-auto"
-              height={32}
-              width={120}
-              src="/logo.png"
-            />
-          </motion.div>
-        </Link>
-        <nav className="ml-auto flex gap-8">
-          {links.map(
-            (item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <Link
-                  className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors relative group"
-                  href={`#${item.label.toLowerCase()}`}
-                >
-                  {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </motion.div>
-            )
-          )}
-        </nav>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="ml-8 flex gap-3"
-        >
-          <Link href="/login">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 cursor-pointer transition-colors"
+        <div className="container mx-auto px-4 lg:px-6 h-14 flex items-center justify-between">
+          <Link className="flex items-center" href="/">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
-            Sign In
-          </Button>
+              <Image
+                alt="UniPlace Logo"
+                className="h-11 w-auto"
+                height={44}
+                width={130}
+                src="/logo.png"
+              />
+            </motion.div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            {links.map((item) => (
+              <Link
+                key={item.label}
+                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors relative group"
+                href={item.href}
+              >
+                {item.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            ))}
+          </nav>
+
+          <div className="hidden md:flex items-center gap-3">
+            <Link href="/login">
+              <Button
+                variant="ghost"
+                className="text-gray-600 hover:text-blue-600 cursor-pointer"
+              >
+                Sign In
+              </Button>
             </Link>
             <Link href="/signup">
-          <Button
-            size="sm"
-            className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm cursor-pointer transition-colors"
-            >
-            Get Started
-          </Button>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-blue-500/50 transition-all duration-300 cursor-pointer">
+                Get Started Free
+              </Button>
             </Link>
-        </motion.div>
-      </motion.header>
-  )
-}
+          </div>
 
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <Button onClick={toggleMenu} variant="ghost" size="icon">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="fixed inset-0 z-50 bg-white p-6 md:hidden"
+          >
+            <div className="flex justify-between items-center mb-12">
+              <Link href="/" onClick={toggleMenu}>
+                <Image
+                  alt="UniPlace Logo"
+                  className="h-8 w-auto"
+                  height={40}
+                  width={130}
+                  src="/logo.png"
+                />
+              </Link>
+              <Button onClick={toggleMenu} variant="ghost" size="icon">
+                <X className="h-6 w-6" />
+              </Button>
+            </div>
+            <nav className="flex flex-col items-center gap-8">
+              {links.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={toggleMenu}
+                  className="text-xl font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <div className="mt-8 flex flex-col gap-4 w-full max-w-xs">
+                <Link href="/login" onClick={toggleMenu}>
+                  <Button variant="outline" className="w-full text-lg py-6">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/signup" onClick={toggleMenu}>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6">
+                    Get Started Free
+                  </Button>
+                </Link>
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
 export default Navbar;

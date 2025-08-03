@@ -181,7 +181,7 @@ const ViewDrives = () => {
 
   if (loading) {
     return (
-      <div className="ml-64 min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
@@ -196,7 +196,7 @@ const ViewDrives = () => {
 
   if (error) {
     return (
-      <div className="ml-64 min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
@@ -213,7 +213,7 @@ const ViewDrives = () => {
   }
 
   return (
-    <div className="ml-64 min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
