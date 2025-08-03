@@ -22,12 +22,12 @@ export default function DrivesPage() {
         const fetchDrives = async () => {
           setLoading(true);
           try {
-            const response = await fetch('https://dummyjson.com/c/0f6b-72a2-4d10-a986');
+            const response = await fetch('/api/admin/view-drives');
             if (!response.ok) {
               throw new Error("Failed to fetch drives");
             }
             const data = await response.json();
-            setDrives(data.drive || []);
+            setDrives(data || []);
           } catch (error) {
             setDrives([]);
           } finally {
@@ -44,14 +44,7 @@ export default function DrivesPage() {
       </div>;
     }
 
-  type User = {
-    name: string;
-    email: string;
-    admnno: string;
-    collegeName: string;
-  };
-
-  const user: User | null = useUser();
+  const user = useUser();
 
     if(user === undefined) {
     return <p className="text-center text-gray-600 h-screen flex items-center justify-center">
@@ -98,13 +91,13 @@ export default function DrivesPage() {
 
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           <motion.div {...fadeInUp}>
-            <DrivesSidebar EligibleDrives={drives.length} />
+            <DrivesSidebar EligibleDrives={drives.length} userCGPA={user.academicInfo?.cgpa ?? 0} />
           </motion.div>
 
           <motion.div {...fadeInUp} className="xl:col-span-3">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {drives.map((drive, index) => (
-                      <DriveCard drive={drive} index={index} />
+                      <DriveCard drive={drive} index={index} key={index} />
                     ))} 
                 </div>
           </motion.div>

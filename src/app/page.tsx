@@ -27,6 +27,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const fadeInUp = {
@@ -53,68 +54,7 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b">
       {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="px-4 lg:px-6 h-16 flex items-center border-b border-gray-100 bg-white/80 backdrop-blur-xl absolute inset-0 top-0 z-50"
-      >
-        <Link className="flex items-center justify-center" href="/">
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.2 }}
-            className="flex items-center"
-          >
-            <Image
-              alt="UniPlace Logo"
-              className="h-8 w-auto"
-              height={32}
-              width={120}
-              src="/logo.png"
-            />
-          </motion.div>
-        </Link>
-        <nav className="ml-auto flex gap-8">
-          {["Features", "Solutions", "Pricing", "Contact"].map(
-            (item, index) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-              >
-                <Link
-                  className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors relative group"
-                  href={`#${item.toLowerCase()}`}
-                >
-                  {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </motion.div>
-            )
-          )}
-        </nav>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="ml-8 flex gap-3"
-        >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-          >
-            Sign In
-          </Button>
-          <Button
-            size="sm"
-            className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm"
-          >
-            Get Started
-          </Button>
-        </motion.div>
-      </motion.header>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
@@ -122,6 +62,7 @@ export default function LandingPage() {
           <div className="text-center">
             <motion.h1
               {...fadeInUp}
+              transition={{ delay: 0.2 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
             >
               Your Gateway to

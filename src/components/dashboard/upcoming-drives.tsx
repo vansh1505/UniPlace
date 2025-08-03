@@ -14,12 +14,12 @@ export function UpcomingDrives() {
     const fetchDrives = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://dummyjson.com/c/0f6b-72a2-4d10-a986');
+        const response = await fetch('/api/admin/view-drives');
         if (!response.ok) {
           throw new Error("Failed to fetch drives");
         }
         const data = await response.json();
-        setDrives(data.drive || []);
+        setDrives(data || []);
       } catch (error) {
         setDrives([]);
       } finally {

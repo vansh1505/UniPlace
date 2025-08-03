@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const companySchema = new mongoose.Schema({
+const driveSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -57,10 +57,6 @@ const companySchema = new mongoose.Schema({
         type: [String],
         required: true,
     },
-    skills: {
-        type: [String],
-        required: true,
-    },
     date: {
         type: Date,
         required: true,
@@ -87,5 +83,5 @@ const companySchema = new mongoose.Schema({
     timestamps: true,
 });
 
-const Company = mongoose.models.Company || mongoose.model("Company", companySchema);
-export default Company;
+const Drive = mongoose.models.Drive || mongoose.model("Drive", driveSchema);
+export default Drive;

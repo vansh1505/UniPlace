@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 
 interface DriveCardProps {
   drive: {
-    company: string;
+    name: string;
     logo?: string;
-    status: string;
+    recurimentType: string;
     position: string;
     date: string;
     time: string;
@@ -38,27 +38,31 @@ export const DriveCard = ({ drive, index }: DriveCardProps) => {
                 height={32}
                 width={32}
                 src={drive.logo}
-                alt={`${drive.company} logo`}
+                alt={`${drive.name} logo`}
                 className="w-8 h-8 rounded"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-500 text-white rounded">
+              <div className="w-full h-full flex items-center justify-center bg-indigo-400 text-white rounded-xl">
                 <Building className="w-6 h-6" />
               </div>
             )}
           </div>
           <div className="flex-1">
             <div className="flex items-center space-x-2 mb-1">
-              <h3 className="font-semibold text-gray-900">{drive.company}</h3>
+              <h3 className="font-semibold text-gray-900">{drive.name}</h3>
               <Badge
-                variant={drive.status === "Open" ? "default" : "destructive"}
+                variant={
+                  drive.recurimentType === "Internship"
+                    ? "default"
+                    : "destructive"
+                }
                 className={
-                  drive.status === "Open"
+                  drive.recurimentType === "Internship"
                     ? "bg-green-100 text-green-800 hover:bg-green-100"
                     : "bg-orange-100 text-orange-800 hover:bg-orange-100"
                 }
               >
-                {drive.status}
+                {drive.recurimentType}
               </Badge>
             </div>
             <p className="text-gray-600 mb-2">{drive.position}</p>
@@ -75,22 +79,21 @@ export const DriveCard = ({ drive, index }: DriveCardProps) => {
                 <MapPin className="h-4 w-4 mr-1" />
                 {drive.location}
               </div>
-              <div className="flex items-center">
-                <Users className="h-4 w-4 mr-1" />
-                {drive.applicants} applied
-              </div>
             </div>
           </div>
         </div>
         <div className="text-right">
           <p className="font-semibold text-green-600 mb-1">{drive.package}</p>
           <p className="text-sm text-gray-500">
-            Deadline: {new Date(drive.deadline).toLocaleDateString()}
+            Deadline:{" "}
+            {new Date(
+              new Date(drive.date).getTime() - 7 * 24 * 60 * 60 * 1000
+            ).toLocaleDateString()}
           </p>
         </div>
       </div>
       <div className="mt-4 flex justify-end">
-        <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+        <Button size="sm" className="bg-blue-600 hover:bg-blue-700" disabled>
           Apply Now
         </Button>
       </div>

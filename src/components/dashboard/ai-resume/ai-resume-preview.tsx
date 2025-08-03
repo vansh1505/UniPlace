@@ -6,7 +6,7 @@ interface AIResumePreviewProps {
   resumeData: any
 }
 
-export function AIResumePreview({ resumeData }: AIResumePreviewProps) {
+export function AIResumePreview({user} : {user : any}) {
   return (
     <div className="space-y-6">
       {/* Preview Card */}
@@ -17,43 +17,8 @@ export function AIResumePreview({ resumeData }: AIResumePreviewProps) {
           </div>
           <h2 className="text-xl font-semibold text-gray-900">Live Preview</h2>
         </div>
-
-        <div className="bg-gray-50 rounded-lg p-4 mb-6" style={{ minHeight: "400px" }}>
-          <div className="bg-white rounded shadow-sm p-6 text-sm">
-            <div className="text-center mb-4">
-              <h3 className="text-lg font-bold text-gray-900">Your Name</h3>
-              <p className="text-gray-600">Software Engineer</p>
-              <p className="text-gray-500 text-xs">email@example.com | +91 98765 43210</p>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">PROFESSIONAL SUMMARY</h4>
-                <p className="text-gray-700 text-xs leading-relaxed">
-                  Your professional summary will appear here based on the information you provide...
-                </p>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">EXPERIENCE</h4>
-                <div className="text-xs text-gray-700">
-                  <p className="font-medium">Job Title • Company Name</p>
-                  <p className="text-gray-500">Start Date - End Date</p>
-                  <p className="mt-1">Your experience details will be formatted here...</p>
-                </div>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">SKILLS</h4>
-                <p className="text-xs text-gray-700">Your skills will be listed here...</p>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">EDUCATION</h4>
-                <p className="text-xs text-gray-700">Your education details will appear here...</p>
-              </div>
-            </div>
-          </div>
+        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+          <iframe src={user.resumeURL} frameBorder="0" className="w-full h-96" />
         </div>
 
         <div className="flex items-center gap-2">

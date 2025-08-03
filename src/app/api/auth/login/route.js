@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 import { SignJWT } from "jose";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-import { use } from "react";
 
 dotenv.config();
 
