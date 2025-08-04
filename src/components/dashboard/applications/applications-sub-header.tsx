@@ -1,40 +1,36 @@
 "use client";
 
-import { TrendingUp, Target, Clock } from "lucide-react";
+import { isThisMonth } from "date-fns/isThisMonth";
+import { TrendingUp, Target } from "lucide-react";
 
 interface ApplicationsSubHeaderProps {
   viewMode: "kanban" | "table" | "timeline";
   setViewMode: (mode: "kanban" | "table" | "timeline") => void;
+  applications: any[];
 }
 
-const insights = [
-  {
-    title: "Application Rate",
-    value: "12 this month",
-    change: "+3 from last month",
-    trend: "up",
-    icon: TrendingUp,
-  },
-  {
-    title: "Response Rate",
-    value: "67%",
-    change: "Above average",
-    trend: "up",
-    icon: Target,
-  },
-  {
-    title: "Avg. Response Time",
-    value: "5 days",
-    change: "2 days faster",
-    trend: "up",
-    icon: Clock,
-  },
-];
 
 export function ApplicationsSubHeader({
   viewMode,
   setViewMode,
+  applications,
 }: ApplicationsSubHeaderProps) {
+
+  const insights = [
+    {
+      title: "Application Rate",
+      value: `${applications.filter(app => isThisMonth(app.appliedAt)).length} this month`,
+      trend: "up",
+      icon: TrendingUp,
+    },
+    {
+      title: "Total Applied Rate",
+      value: `${applications.length} applications`,
+      trend: "up",
+      icon: Target,
+    },
+  ];
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-1">
@@ -80,7 +76,6 @@ export function ApplicationsSubHeader({
                   {insight.value}
                 </p>
                 <p className="text-xs text-gray-600">{insight.title}</p>
-                <p className="text-xs text-green-600">{insight.change}</p>
               </div>
             </div>
           ))}

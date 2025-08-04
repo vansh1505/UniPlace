@@ -230,8 +230,8 @@ const ViewDrives = () => {
                 Manage and monitor all placement drives
               </p>
             </div>
-            <Link href="/dashboard/admin/create-drives">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Link href="/dashboard/admin/create-drive">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer">
                 <Plus className="w-4 h-4 mr-2" />
                 Create Drive
               </Button>

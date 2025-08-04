@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   ChevronLeft,
+  Newspaper,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -40,6 +41,11 @@ const Sidebar = () => {
       label: "Manage Users",
       icon: Users,
     },
+    {
+      href: "/dashboard/admin/view-applications",
+      label: "View Applications",
+      icon: Newspaper,
+    }
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -49,7 +55,7 @@ const Sidebar = () => {
       {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/10 bg-opacity-50 z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}

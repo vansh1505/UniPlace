@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "motion/react"
-import { MoreHorizontal, ExternalLink, MessageSquare, Calendar, ArrowUpDown } from "lucide-react"
+import { MoreHorizontal, ExternalLink, MessageSquare, Calendar, ArrowUpDown, Building2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
@@ -26,8 +26,7 @@ const getStatusBadge = (status: string) => {
   )
 }
 
-export function ApplicationsTable() {
-
+export function ApplicationsTable({ applications }: { applications: any[] }) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -77,7 +76,7 @@ export function ApplicationsTable() {
             )}
             {applications.map((application, index) => (
               <motion.tr
-                key={application.id}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -85,23 +84,29 @@ export function ApplicationsTable() {
               >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={application.logo || "/placeholder.svg"}
-                      alt={application.company}
-                      className="w-8 h-8 rounded-lg"
-                    />
-                    <span className="font-medium text-gray-900">{application.company}</span>
+                    {application.drive.logoLink ? (
+                      <img
+                        src={application.drive.logoLink}
+                        alt={application.drive.name}
+                        className="w-8 h-8 rounded-lg"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
+                        <Building2 className="text-gray-500" />
+                      </div>
+                    )}
+                    <span className="font-medium text-gray-900">{application.drive.name}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{application.position}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{application.location}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{application.drive.position}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{application.drive.location}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {new Date(application.appliedDate).toLocaleDateString()}
+                  {new Date(application.appliedAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(application.status)}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">{application.salary}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">{application.drive.salary.min} LPA to {application.drive.salary.max} LPA</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {new Date(application.lastUpdate).toLocaleDateString()}
+                  {new Date(application.drive.date).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
                   <div className="flex items-center justify-end gap-2">

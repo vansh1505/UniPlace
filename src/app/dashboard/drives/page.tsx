@@ -41,7 +41,6 @@ export default function DrivesPage() {
     };
     fetchDrives();
   }, [user?.admnno]);
-  console.log("Upcoming Drives:", drives);
 
   if (!user) {
     return (

@@ -7,10 +7,13 @@ const applicationSchema = new mongoose.Schema({
         required: true,
         index: true,
     },
-    companyId: {
+    driveId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
+        ref: 'Drive',
         required: true,
+    },
+    sop: {
+        type: String,
     },
     status: {
         type: String,
@@ -24,3 +27,7 @@ const applicationSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+const Application = mongoose.models.Application || mongoose.model('Application', applicationSchema);
+
+export default Application;

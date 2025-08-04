@@ -29,8 +29,6 @@ export function UpcomingDrives({ admnno }: { admnno: string }) {
     if (admnno) fetchDrives();
   }, [admnno]);
 
-  console.log("Upcoming Drives:", drives);
-
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       <div className="p-6 border-b border-gray-200">

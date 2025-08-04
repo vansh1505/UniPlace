@@ -1,7 +1,8 @@
 import connectDB from "@/lib/db";
-import Student from "@/models/student";
+import { getUser } from "@/lib/auth";
 import Drive from "@/models/drive";
 import { NextResponse } from "next/server";
+import Application from "../../../models/application";
 
 export async function GET(req) {
     try {
@@ -14,7 +15,7 @@ export async function GET(req) {
             return NextResponse.json({ error: "Missing admission number" }, { status: 400 });
         }
 
-        const student = await Student.findOne({ admnno });
+        const student = await getUser(req);
 
         if (!student) {
             return NextResponse.json({ message: "Student not found" }, { status: 404 });
@@ -26,16 +27,20 @@ export async function GET(req) {
 
         const drives = await Drive.find({});
 
+        const applied = await Application.find({
+            studentId: student.id,
+        });
+        const appliedDriveIds = new Set(applied.map(app => app.driveId.toString()));
+
         const eligibleDrives = drives.filter(drive =>
             drive.minCGPA <= academicInfo.cgpa &&
-            drive.minBacklogs >= academicInfo.backlogs
+            drive.minBacklogs >= academicInfo.backlogs &&
+            !appliedDriveIds.has(drive._id.toString())
             // drive.courses.filter(course => course === academicInfo.course).length > 0 &&
             // drive.branches.filter(branch => branch === academicInfo.branch).length > 0
             // && drive.isActive
         );
-
-        console.log("Eligible Drives Count:", eligibleDrives.length);
-        return NextResponse.json({ eligibleDrives, totalDrives: drives.length }, { status: 200 });
+        return NextResponse.json({ eligibleDrives, totalDrives: drives.length - applied.length }, { status: 200 });
     } catch (error) {
         console.error("Error fetching academic info:", error.message);
         return NextResponse.json({ error: "Error occurred while fetching academic info" }, { status: 500 });
