@@ -45,6 +45,31 @@ const branches = [
 
 const courses = ["B.Tech", "B.E", "M.Tech", "M.E", "MCA", "BCA", "MBA", "M.Sc", "B.Sc"]
 
+const commonSkills = [
+  "JavaScript",
+  "Python",
+  "Java",
+  "C++",
+  "React",
+  "Node.js",
+  "Angular",
+  "Vue.js",
+  "HTML/CSS",
+  "SQL",
+  "MongoDB",
+  "PostgreSQL",
+  "AWS",
+  "Docker",
+  "Kubernetes",
+  "Machine Learning",
+  "Data Science",
+  "DevOps",
+  "Git",
+  "Linux",
+  "Android",
+  "iOS",
+]
+
 export default function CreateDrivePage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -58,6 +83,7 @@ export default function CreateDrivePage() {
     minBacklogs: "",
     courses: [] as string[],
     branches: [] as string[],
+    skills: [] as string[],
     date: undefined as Date | undefined,
     time: "",
     recurimentType: "",
@@ -65,6 +91,7 @@ export default function CreateDrivePage() {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [newSkill, setNewSkill] = useState("")
 
   const handleInputChange = (field: string, value: any) => {
     if (field.includes(".")) {
@@ -81,6 +108,13 @@ export default function CreateDrivePage() {
     }
   }
 
+    const addCustomSkill = () => {
+    if (newSkill.trim() && !formData.skills.includes(newSkill.trim())) {
+      handleArrayAdd("skills", newSkill.trim())
+      setNewSkill("")
+    }
+  }
+
   const handleArrayAdd = (field: string, value: string) => {
     const arr = formData[field as keyof typeof formData] as string[] | undefined
     if (value && Array.isArray(arr) && !arr.includes(value)) {
@@ -91,14 +125,19 @@ export default function CreateDrivePage() {
     }
   }
 
-  const handleArrayRemove = (field: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: (prev[field as keyof typeof prev] as string[]).filter((item) => item !== value),
-    }))
-  }
 
-
+const handleArrayRemove = (field: keyof typeof formData, value: string) => {
+  setFormData((prev) => {
+    const currentArray = prev[field];
+    if (Array.isArray(currentArray)) {
+      return {
+        ...prev,
+        [field]: currentArray.filter((item) => item !== value),
+      };
+    }
+    return prev;
+  });
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -161,7 +200,7 @@ export default function CreateDrivePage() {
           {/* Company Information */}
           <motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
             <Card className="shadow-lg border-0">
-              <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-t-lg">
+              <CardHeader className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-t-lg py-4  ">
                 <CardTitle className="flex items-center gap-2">
                   <Building2 className="h-5 w-5" />
                   Company Information
@@ -218,7 +257,7 @@ export default function CreateDrivePage() {
           {/* Job Details */}
           <motion.div {...fadeInUp} transition={{ delay: 0.2 }}>
             <Card className="shadow-lg border-0">
-              <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-t-lg">
+              <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-t-lg py-4">
                 <CardTitle className="flex items-center gap-2">
                   <Users className="h-5 w-5" />
                   Job Details
@@ -320,7 +359,7 @@ export default function CreateDrivePage() {
           {/* Eligibility Criteria */}
           <motion.div {...fadeInUp} transition={{ delay: 0.3 }}>
             <Card className="shadow-lg border-0">
-              <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-t-lg">
+              <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-t-lg py-4">
                 <CardTitle className="flex items-center gap-2">
                   <GraduationCap className="h-5 w-5" />
                   Eligibility Criteria
@@ -418,13 +457,52 @@ export default function CreateDrivePage() {
           {/* Skills & Schedule */}
           <motion.div {...fadeInUp} transition={{ delay: 0.4 }}>
             <Card className="shadow-lg border-0">
-              <CardHeader className="bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-t-lg">
+              <CardHeader className="bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-t-lg py-4">
                 <CardTitle className="flex items-center gap-2">
                   <Clock className="h-5 w-5" />
                   Schedule
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-4">
+                {/* Skills */}
+                <div>
+                  <Label>Required Skills *</Label>
+                  <div className="flex gap-2 mb-2">
+                    <Input
+                      value={newSkill}
+                      onChange={(e) => setNewSkill(e.target.value)}
+                      placeholder="Add custom skill"
+                      onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addCustomSkill())}
+                    />
+                    <Button type="button" onClick={addCustomSkill} size="sm">
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
+                    {commonSkills.map((skill) => (
+                      <Button
+                        key={skill}
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleArrayAdd("skills", skill)}
+                        disabled={formData.skills.includes(skill)}
+                        className="justify-start"
+                      >
+                        <Plus className="h-3 w-3 mr-1" />
+                        {skill}
+                      </Button>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {formData.skills.map((skill) => (
+                      <Badge key={skill} variant="secondary" className="bg-orange-100 text-orange-800">
+                        {skill}
+                        <X className="h-3 w-3 ml-1 cursor-pointer" onClick={() => handleArrayRemove("skills", skill)} />
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
                 {/* Schedule */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -473,11 +551,7 @@ export default function CreateDrivePage() {
 
           {/* Submit Buttons */}
           <motion.div {...fadeInUp} transition={{ delay: 0.5 }} className="flex gap-4 justify-end">
-            <Button type="button" variant="outline" className="bg-transparent">
-              <Eye className="h-4 w-4 mr-2" />
-              Preview
-            </Button>
-            <Button type="submit" disabled={isSubmitting} className="bg-blue-600 hover:bg-blue-700 min-w-[120px]">
+            <Button type="submit" disabled={isSubmitting} className="bg-blue-600 hover:bg-blue-700 min-w-[120px] cursor-pointer">
               {isSubmitting ? (
                 <motion.div
                   animate={{ rotate: 360 }}

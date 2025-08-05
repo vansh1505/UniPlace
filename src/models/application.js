@@ -12,6 +12,30 @@ const applicationSchema = new mongoose.Schema({
         ref: 'Drive',
         required: true,
     },
+    collegeName: {
+        type: String,
+        required: true,
+    },
+    studentName: {
+        type: String,
+        required: true,
+    },
+    companyName: {
+        type: String,
+        required: true,
+    },
+    position: {
+        type: String,
+        required: true,
+    },
+    admnno: {
+        type: String,
+        required: true,
+    },
+    resumeURL: {
+        type: String,
+        default: "",
+    },
     sop: {
         type: String,
     },

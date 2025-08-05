@@ -5,7 +5,7 @@ import Application from "@/models/application";
 
 export async function POST(req) {
     try {
-        const { driveId, skills } = await req.json();
+        const { driveId, companyName, position, skills } = await req.json();
         const user = await getUser(req);
 
         if (!user || user.role !== "student") {
@@ -27,6 +27,12 @@ export async function POST(req) {
             studentId: user.id,
             resumeUrl: user.resumeUrl || "",
             skills,
+            collegeName: user.collegeName,
+            studentName: user.name,
+            admnno: user.admnno,
+            resumeURL: user.resumeURL,
+            companyName,
+            position,
             status: "applied",
             appliedAt: new Date(),
         });

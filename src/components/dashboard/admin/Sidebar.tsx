@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-const Sidebar = () => {
+const Sidebar = ({ collegeName }: { collegeName: string | undefined }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -94,7 +94,10 @@ const Sidebar = () => {
             <ChevronLeft size={20} />
           </button>
         </div>
-
+        {/* College Name */}
+        <div className="px-6 py-4 text-center text-blue-300 border-b border-gray-700">
+          <h3 className="text-xl font-semibold">{collegeName}</h3>
+        </div>
         {/* Navigation */}
         <nav className="flex-1 py-6 px-4 space-y-2">
           {menuItems.map((item) => {

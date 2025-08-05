@@ -51,6 +51,9 @@ export const DriveCard = ({ drive, index }: DriveCardProps) => {
         body: JSON.stringify({
           driveId: drive._id,
           skills: drive.skills,
+          companyName: drive.name,
+          position: drive.position,
+          
         }),
       });
       if (!response.ok) {

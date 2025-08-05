@@ -89,7 +89,11 @@ export default function LoginPage() {
         .then((data) => {
           if (data.success) {
             toast.success("Welcome back!");
-            window.location.href = "/dashboard";
+            if(data.role === "admin") {
+              window.location.href = "/dashboard/admin";
+            } else {
+              window.location.href = "/dashboard";
+            }
           } else {
             // Handle login error
             setErrors((prev) => ({

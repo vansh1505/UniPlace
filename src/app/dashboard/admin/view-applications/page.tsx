@@ -1,18 +1,76 @@
+"use client";
 import React from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "../../context/UserCtx";
+import { Button } from "@/components/ui/button";
+import { LoaderCircle } from "lucide-react";
+
+interface Application {
+  studentName: string;
+  position: string;
+  collegeName: string;
+  status: string;
+  companyName: string;
+  appliedAt: string;
+  admnno: string;
+}
 
 const page = () => {
+  const [applications, setApplications] = useState<Application[]>([]);
+  const user = useUser();
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const response = await fetch(
+          `/api/admin/view-applications?collegeName=${user?.collegeName}`,
+          {
+            method: "GET",
+          }
+        );
+        if (!response.ok) throw new Error("Failed to fetch applications");
+
+        const applications = await response.json();
+        setApplications(applications);
+      } catch (err) {
+        console.error("Error fetching applications:", err);
+        setApplications([]);
+      }
+    };
+
+    fetchApplications();
+  }, []);
+
+  if (!applications) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <LoaderCircle className="animate-spin mr-2" />
+        <p className="text-gray-600">Loading applications...</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="container mx-auto px-4 py-8"></div>
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
         View Applications
       </h1>
+      <div className="bg-white p-6 rounded-lg shadow-md mb-12">
+          <h2 className="text-sm font-medium text-gray-500 truncate">
+            Total Applications
+          </h2>
+          <p className="mt-1 text-3xl font-semibold text-gray-900">
+            {applications.length}
+          </p>
+        </div>
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full leading-normal">
             <thead>
               <tr className="bg-gray-100 text-left text-gray-600 uppercase text-sm">
+                <th className="py-3 px-6">Admn no</th>
                 <th className="py-3 px-6">Applicant Name</th>
+                <th className="py-3 px-6">Company</th>
                 <th className="py-3 px-6">Position</th>
                 <th className="py-3 px-6">Date Applied</th>
                 <th className="py-3 px-6">Status</th>
@@ -20,72 +78,53 @@ const page = () => {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {/* Example Row 1 */}
-              <tr className="border-b border-gray-200 hover:bg-gray-50">
-                <td className="py-4 px-6">John Doe</td>
-                <td className="py-4 px-6">Software Engineer</td>
-                <td className="py-4 px-6">2023-10-27</td>
-                <td className="py-4 px-6">
-                  <span className="relative inline-block px-3 py-1 font-semibold text-yellow-900 leading-tight">
-                    <span
-                      aria-hidden
-                      className="absolute inset-0 bg-yellow-200 opacity-50 rounded-full"
-                    ></span>
-                    <span className="relative">Pending</span>
-                  </span>
-                </td>
-                <td className="py-4 px-6">
-                  <button className="text-indigo-600 hover:text-indigo-900 mr-4">
-                    View
-                  </button>
-                  <button className="text-green-600 hover:text-green-900 mr-4">
-                    Approve
-                  </button>
-                  <button className="text-red-600 hover:text-red-900">
-                    Reject
-                  </button>
-                </td>
-              </tr>
-              {/* Example Row 2 */}
-              <tr className="border-b border-gray-200 hover:bg-gray-50">
-                <td className="py-4 px-6">Jane Smith</td>
-                <td className="py-4 px-6">UX Designer</td>
-                <td className="py-4 px-6">2023-10-26</td>
-                <td className="py-4 px-6">
-                  <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                    <span
-                      aria-hidden
-                      className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                    ></span>
-                    <span className="relative">Approved</span>
-                  </span>
-                </td>
-                <td className="py-4 px-6">
-                  <button className="text-indigo-600 hover:text-indigo-900">
-                    View
-                  </button>
-                </td>
-              </tr>
-              {/* Example Row 3 */}
-              <tr className="hover:bg-gray-50">
-                <td className="py-4 px-6">Sam Wilson</td>
-                <td className="py-4 px-6">Product Manager</td>
-                <td className="py-4 px-6">2023-10-25</td>
-                <td className="py-4 px-6">
-                  <span className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                    <span
-                      aria-hidden
-                      className="absolute inset-0 bg-red-200 opacity-50 rounded-full"
-                    ></span>
-                    <span className="relative">Rejected</span>
-                  </span>
-                </td>
-                <td className="py-4 px-6">
-                  <button className="text-indigo-600 hover:text-indigo-900">
-                    View
-                  </button>
-                </td>
-              </tr>
+              {applications.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-4 px-6 text-center">
+                    No applications found.
+                  </td>
+                </tr>
+              ) : (
+                applications.map((application, index) => (
+                  <tr
+                    className="border-b border-gray-200 hover:bg-gray-50"
+                    key={index}
+                  >
+                    <td className="py-4 px-6">{application.admnno}</td>
+                    <td className="py-4 px-6">{application.studentName}</td>
+                    <td className="py-4 px-6">{application.companyName}</td>
+                    <td className="py-4 px-6">{application.position}</td>
+                    <td className="py-4 px-6">
+                      {new Date(application.appliedAt).toLocaleDateString()}
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className="relative inline-block px-3 py-1 font-semibold text-yellow-900 leading-tight">
+                        <span
+                          aria-hidden
+                          className="absolute inset-0 bg-yellow-200 opacity-50 rounded-full"
+                        ></span>
+                        <span className="relative">{application.status}</span>
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <Button
+                        variant="outline"
+                        className="text-green-600 hover:text-green-900 mr-4"
+                        disabled
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="text-red-600 hover:text-red-900"
+                        disabled
+                      >
+                        Reject
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

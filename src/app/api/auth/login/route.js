@@ -53,7 +53,7 @@ export async function POST(req) {
     });
 
 
-    return NextResponse.json({ success: true, student: user.name }, { status: 200 });
+    return NextResponse.json({ success: true, role: user.role }, { status: 200 });
 
   } catch (error) {
     console.error("Login error:", error.message);

@@ -28,6 +28,13 @@ export async function middleware(req) {
             return NextResponse.redirect(url);
         }
 
+        if (url.pathname.startsWith("/api/admin") && payload.role !== "admin" && payload) {
+            return new NextResponse(
+                JSON.stringify({ message: "Unauthorized access" }),
+                { status: 403, headers: { "Content-Type": "application/json" } }
+            );
+        }
+
         return NextResponse.next();
 
     } catch (err) {
@@ -38,5 +45,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*"],
+    matcher: ["/api/admin/:path*","/dashboard/:path*"],
 };

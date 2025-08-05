@@ -26,17 +26,9 @@ const staggerContainer = {
   },
 };
 
-type User = {
-  name: string;
-  email: string;
-  collegeName: string;
-  admnno: string;
-  profileCompleted: boolean;
-  role: string;
-};
 
 export default function DashboardPage() {
-  const user: User | null = useUser();
+  const user = useUser();
   const [showModal, setShowModal] = useState(!user?.profileCompleted);
   if (!user) {
     return <p className="text-center text-red-600">user not found</p>;
