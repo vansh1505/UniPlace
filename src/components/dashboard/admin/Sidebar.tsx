@@ -15,10 +15,16 @@ import {
   Newspaper,
 } from "lucide-react";
 import Image from "next/image";
+import {Button} from "@/components/ui/button";
 
 const Sidebar = ({ collegeName }: { collegeName: string | undefined }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
+  const handleLogout = () => {
+    fetch("/api/auth/logout", { method: "GET", credentials: "include" })
+      .then(() => window.location.href = "/");
+  }
 
   const menuItems = [
     {
@@ -45,7 +51,7 @@ const Sidebar = ({ collegeName }: { collegeName: string | undefined }) => {
       href: "/dashboard/admin/view-applications",
       label: "View Applications",
       icon: Newspaper,
-    }
+    },
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -138,17 +144,13 @@ const Sidebar = ({ collegeName }: { collegeName: string | undefined }) => {
 
         {/* Logout button */}
         <div className="p-4 border-t border-gray-700">
-          <Link
-            href="/api/auth/logout"
-            onClick={() => setIsOpen(false)}
-            className="group flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-red-600 hover:text-white transition-all duration-200 hover:transform hover:scale-[1.01]"
-          >
+          <Button variant="destructive" onClick={handleLogout} className="w-full flex items-center space-x-3 cursor-pointer">
             <LogOut
               size={20}
-              className="text-gray-400 group-hover:text-white transition-colors duration-200"
+              className="text-white group-hover:text-white transition-colors duration-200"
             />
             <span className="font-medium">Logout</span>
-          </Link>
+          </Button>
         </div>
       </aside>
     </>

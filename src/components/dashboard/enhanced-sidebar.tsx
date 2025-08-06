@@ -111,6 +111,11 @@ export function EnhancedSidebar({
     },
   };
 
+  const handleLogout = () => {
+    fetch("/api/auth/logout", { method: "GET", credentials: "include" })
+      .then(() => window.location.href = "/");
+  }
+
   return (
     <div className="group" data-expanded={isExpanded}>
       <motion.div
@@ -337,12 +342,10 @@ export function EnhancedSidebar({
                     </Link>
                   </div>
                   <div className="border-t border-gray-200 py-1">
-                    <Link href="/api/auth/logout">
-                      <button className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer">
+                      <button className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer" onClick={handleLogout}>
                         <LogOut className="h-4 w-4 mr-3" />
                         Logout
                       </button>
-                    </Link>
                   </div>
                 </motion.div>
               )}
