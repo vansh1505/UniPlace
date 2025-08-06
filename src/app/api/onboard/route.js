@@ -49,9 +49,10 @@ export async function PATCH(req) {
     cookieStore.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
       maxAge: 60 * 60,
+      domain: process.env.NODE_ENV === "production" ? ".uniplace.vercel.app" : undefined,
     });
 
     return NextResponse.json({ message: "Profile updated successfully" }, { status: 200 });

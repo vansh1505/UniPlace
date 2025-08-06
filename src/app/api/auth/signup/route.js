@@ -47,9 +47,10 @@ export async function POST(req) {
         cookieStore.set("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
             path: "/",
-            maxAge: 24 * 60 * 60
+            maxAge: 60 * 60,
+            domain: process.env.NODE_ENV === "production" ? ".uniplace.vercel.app" : undefined,
         });
 
         return NextResponse.json({ success: true, student: student.name }, { status: 201 });
