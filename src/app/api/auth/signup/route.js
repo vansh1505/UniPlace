@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
-
+import cookieOptions from "@/lib/cookieOptions";
 export async function POST(req) {
     try {
         await connectDB();
@@ -39,18 +39,14 @@ export async function POST(req) {
         })
             .setProtectedHeader({ alg: 'HS256' })
             .setIssuedAt()
-            .setExpirationTime('1d')
+            .setExpirationTime('1h')
             .sign(secret);
 
         // Set the token in a cookie
         const cookieStore = cookies();
         cookieStore.set("token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-            path: "/",
-            maxAge: 60 * 60,
-            domain: process.env.NODE_ENV === "production" ? ".uniplace.vercel.app" : undefined,
+            ...cookieOptions,
+            maxAge: 60 * 60, 
         });
 
         return NextResponse.json({ success: true, student: student.name }, { status: 201 });

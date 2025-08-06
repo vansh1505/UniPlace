@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
-
+import cookieOptions from "@/lib/cookieOptions";
 export async function PATCH(req) {
   try {
     const formData = await req.formData();
@@ -47,12 +47,8 @@ export async function PATCH(req) {
 
     const cookieStore = await cookies();
     cookieStore.set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      path: "/",
+      ...cookieOptions,
       maxAge: 60 * 60,
-      domain: process.env.NODE_ENV === "production" ? ".uniplace.vercel.app" : undefined,
     });
 
     return NextResponse.json({ message: "Profile updated successfully" }, { status: 200 });

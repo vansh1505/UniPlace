@@ -3,6 +3,7 @@ import Student from "@/models/student";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
+import cookieOptions from "@/lib/cookieOptions";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 
@@ -44,14 +45,7 @@ export async function POST(req) {
         .setIssuedAt()
         .setExpirationTime(timeOut)
         .sign(secret);
-    cookieStore.set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      path: "/",
-      maxAge: timeOutCookie,
-      domain: process.env.NODE_ENV === "production" ? ".uniplace.vercel.app" : undefined,
-    });
+    cookieStore.set("token", token, { ...cookieOptions, maxAge: timeOutCookie });
 
 
     return NextResponse.json({ success: true, role: user.role }, { status: 200 });
