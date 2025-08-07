@@ -11,6 +11,10 @@ const driveSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    collegeName: {
+        type: String,
+        required: true,
+    },
     description: {
         type: String,
         required: true,
@@ -40,6 +44,9 @@ const driveSchema = new mongoose.Schema({
             type: Number,
             required: true,
         },
+    },
+    skills: {
+        type: [String],
     },
     minCGPA: {
         type: Number,

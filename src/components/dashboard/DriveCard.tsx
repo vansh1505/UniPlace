@@ -11,7 +11,7 @@ interface DriveCardProps {
   drive: {
     _id: string;
     name: string;
-    logo?: string;
+    logoLink?: string;
     recurimentType: string;
     salary: {
       min: number;
@@ -108,10 +108,10 @@ export const DriveCard = ({ drive, index }: DriveCardProps) => {
               </button>
 
               <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  {drive.logo ? (
-                    <Image
-                      src={drive.logo}
+                <div className="w-16 h-16 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
+                  {drive.logoLink ? (
+                    <img
+                      src={drive.logoLink}
                       alt={`${drive.name} logo`}
                       width={48}
                       height={48}
@@ -325,11 +325,11 @@ export const DriveCard = ({ drive, index }: DriveCardProps) => {
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-4">
             <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-              {drive.logo ? (
-                <Image
+              {drive.logoLink ? (
+                <img
                   height={32}
                   width={32}
-                  src={drive.logo}
+                  src={drive.logoLink}
                   alt={`${drive.name} logo`}
                   className="w-8 h-8 rounded"
                 />

@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import {useUser} from "../../context/UserCtx"
 import {
   CalendarIcon,
   Plus,
@@ -71,9 +72,14 @@ const commonSkills = [
 ]
 
 export default function CreateDrivePage() {
+  const user = useUser()
+  if (!user) {
+    return (<div>Please log in to create a drive.</div>)
+  }
   const [formData, setFormData] = useState({
     name: "",
     logoLink: "",
+    collegeName: user.collegeName,
     description: "",
     website: "",
     location: "",

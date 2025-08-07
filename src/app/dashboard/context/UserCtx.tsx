@@ -18,6 +18,7 @@ export type User = {
     backlogs?: number;
     percentage?: number;
   };
+  resumeURL?: string;
 };
 
 export const UserContext = createContext<User | null>(null);
