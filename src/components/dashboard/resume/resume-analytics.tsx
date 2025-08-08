@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Download, Star, LoaderCircle, Target } from "lucide-react";
+import {LoaderCircle, Target } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 
@@ -17,7 +17,7 @@ export function ResumeAnalytics({ resumeURL }: { resumeURL: string }) {
   }
 
   const [loading, setLoading] = useState(false);
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData[] | null>(
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(
     null
   );
   useEffect(() => {
@@ -70,6 +70,14 @@ export function ResumeAnalytics({ resumeURL }: { resumeURL: string }) {
     );
   }
 
+  if (!analyticsData) {
+    return (
+      <p className="text-center text-gray-600">
+        Unable to load resume analytics. Please try again later.
+      </p>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Performance Stats */}
@@ -92,11 +100,11 @@ export function ResumeAnalytics({ resumeURL }: { resumeURL: string }) {
         <div className="bg-yellow-50 border-1 rounded-lg border-yellow-100 text-yellow-700 p-2 mt-6">
           <h4 className="font-semibold text-yellow-800">Improvements</h4>
           <ul className="list-disc list-inside space-y-2 m-2">
-            {analyticsData?.improvements.map((improvement, index) => (
+            {analyticsData?.improvements?.map((improvement, index) => (
               <li key={index} className="text-sm">
                 {improvement}
               </li>
-            ))}
+            )) || <li className="text-sm">No improvements suggested</li>}
           </ul>
         </div>
       </div>
@@ -111,9 +119,9 @@ export function ResumeAnalytics({ resumeURL }: { resumeURL: string }) {
               <Badge
                 variant="secondary"
                 className={
-                  analyticsData?.score >= 85
+                  (analyticsData?.score ?? 0) >= 85
                     ? "bg-green-100 text-green-800"
-                    : analyticsData?.score >= 70
+                    : (analyticsData?.score ?? 0) >= 70
                     ? "bg-yellow-100 text-yellow-800"
                     : "bg-red-100 text-red-800"
                 }
@@ -124,22 +132,22 @@ export function ResumeAnalytics({ resumeURL }: { resumeURL: string }) {
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
                 className={`h-2 rounded-full ${
-                  analyticsData?.score >= 85
+                  (analyticsData?.score ?? 0) >= 85
                     ? "bg-green-500"
-                    : analyticsData?.score >= 70
+                    : (analyticsData?.score ?? 0) >= 70
                     ? "bg-yellow-500"
                     : "bg-red-500"
                 }`}
-                style={{ width: `${analyticsData?.score}%` }}
+                style={{ width: `${analyticsData?.score ?? 0}%` }}
               />
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            {analyticsData?.skills.map((skill: string, index: number) => (
+            {analyticsData?.skills?.map((skill: string, index: number) => (
               <Badge variant="secondary" key={index} className="text-sm">
                 {skill}
               </Badge>
-            ))}
+            )) || <p className="text-sm text-gray-500">No skills detected</p>}
           </div>
         </div>
         <p className="text-xs mt-8">Powered by <a className="text-blue-600 hover:underline" target="_blank" href="https://github.com/vansh1505/resume-ai-parser">AI Resume Parser</a></p>
