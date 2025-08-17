@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
@@ -88,6 +89,10 @@ const ViewDrives = () => {
 
     fetchDrives();
   }, []);
+
+  const handleGenerateLink = () => {
+    toast.error("This feature is not implemented yet");
+  };
 
   useEffect(() => {
     let filtered = drives;
@@ -176,6 +181,40 @@ const ViewDrives = () => {
       console.error("Error deleting drive:", err);
     } finally {
       setConfirmDelete(false);
+    }
+  };
+
+  const handleDisable = async (driveId: string, isActive: boolean) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to ${isActive ? "enable" : "disable"} this drive?`
+    );
+    if (!confirmed) return;
+    if (!driveId) return;
+    try {
+      const res = await fetch(`/api/admin/toggle-drive-status/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ driveId, isActive }),
+      });
+      if (!res.ok) {
+        toast.error("Failed to toggle drive status");
+        return;
+      }
+      toast.success(`${isActive ? "Enabled" : "Disabled"} drive status updated successfully`);
+      setDrives((prev) =>
+        prev.map((drive) =>
+          drive._id === driveId ? { ...drive, isActive } : drive
+        )
+      );
+      setFilteredDrives((prev) =>
+        prev.map((drive) =>
+          drive._id === driveId ? { ...drive, isActive } : drive
+        )
+      );
+    } catch (err) {
+      console.error("Error toggling drive status:", err);
     }
   };
 
@@ -411,6 +450,11 @@ const ViewDrives = () => {
                         >
                           {drive.isActive ? "Active" : "Inactive"}
                         </Badge>
+                        <Switch
+                          className="data-[state=checked]:bg-blue-500 data-[state=unchecked]:bg-gray-400 cursor-pointer"
+                          checked={drive.isActive}
+                          onCheckedChange={(checked) => handleDisable(drive._id, checked)}
+                        />
                       </div>
                     </div>
                   </CardHeader>
@@ -490,7 +534,7 @@ const ViewDrives = () => {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex-1 bg-transparent"
+                        className="flex-1 bg-transparent cursor-not-allowed disabled"
                         disabled
                       >
                         <Edit className="w-4 h-4 mr-1" />
@@ -513,6 +557,17 @@ const ViewDrives = () => {
                         Delete
                       </Button>
                     </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full cursor-pointer bg-transparent"
+                      onClick={handleGenerateLink}
+                    >
+                      Generate drive link
+                    </Button>
+                    <p className="text-xs text-gray-500">
+                      Note: Drive link will auto expire after 1 day.
+                    </p>
                   </CardContent>
                 </Card>
               </motion.div>

@@ -3,9 +3,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useUser } from "../../context/UserCtx";
 import { Button } from "@/components/ui/button";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Trash } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface Application {
+  _id: string;
   studentName: string;
   position: string;
   collegeName: string;
@@ -17,6 +19,7 @@ interface Application {
 
 const page = () => {
   const [applications, setApplications] = useState<Application[]>([]);
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
   const user = useUser();
   useEffect(() => {
     const fetchApplications = async () => {
@@ -39,6 +42,32 @@ const page = () => {
 
     fetchApplications();
   }, []);
+
+    const handleDelete = async (applicationId: string) => {
+    const confirmed = window.confirm("You really want to delete this application?");
+    if (!confirmed) return;
+    try {
+      const response = await fetch(`/api/remove-application/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ applicationId }),
+      });
+      toast.success("Application deleted successfully");
+
+      if (!response.ok) {
+        toast.error("Failed to delete application");
+      }
+
+      setApplications((prev) =>
+        prev.filter((app) => app._id !== applicationId)
+      );
+    } catch (error) {
+      console.error("Error deleting application:", error);
+    }
+  };
+
 
   if (!applications) {
     return (
@@ -109,17 +138,11 @@ const page = () => {
                     <td className="py-4 px-6">
                       <Button
                         variant="outline"
-                        className="text-green-600 hover:text-green-900 mr-4"
-                        disabled
+                        className="text-red-600 hover:text-red-800 mr-4 cursor-pointer border border-red-500 bg-red-50"
+                        onClick={() => handleDelete(application._id)}
                       >
-                        Approve
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="text-red-600 hover:text-red-900"
-                        disabled
-                      >
-                        Reject
+                        <Trash />
+                        remove
                       </Button>
                     </td>
                   </tr>
