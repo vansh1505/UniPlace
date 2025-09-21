@@ -26,7 +26,7 @@ export function ResumeAnalytics({ resumeURL }: { resumeURL: string }) {
         setLoading(true);
 
         const response = await fetch(
-          `https://stellar-truth-production.up.railway.app/api/parse-resume?pdf_url=${resumeURL}`,
+          `https://resume-ai-parser-chi.vercel.app/api/parse-resume?pdf_url=${resumeURL}`,
           {
             method: "GET",
             headers: {
