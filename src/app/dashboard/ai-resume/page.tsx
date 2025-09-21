@@ -28,7 +28,7 @@ export default function AIResumeBuilderPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [resumeData, setResumeData] = useState({});
   const [generatedResumeURL, setGeneratedResumeURL] = useState<boolean | null>(null);
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Here you can handle the form submission, e.g., send data to backend or update state
     const updatedResumeData = {
@@ -64,9 +64,22 @@ export default function AIResumeBuilderPage() {
         ? (e.target as any).skill.value.split(",").map((s: string) => s.trim())
         : [],
     };
-    setResumeData(updatedResumeData);
-    setGeneratedResumeURL(true);
-    console.log("Resume Data Submitted:", updatedResumeData);
+    await fetch("http://localhost:8000/api/ai-resume-builder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedResumeData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setResumeData(data);
+        console.log("Received response:", data);
+        setGeneratedResumeURL(true);
+      })
+      .catch((error) => {
+        console.error("Error submitting resume data:", error);
+      });
   };
 
 
