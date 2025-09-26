@@ -64,7 +64,7 @@ export default function AIResumeBuilderPage() {
         ? (e.target as any).skill.value.split(",").map((s: string) => s.trim())
         : [],
     };
-    await fetch("https://resume-ai-parser-chi.vercel.app/api/ai-resume-builder", {
+    await fetch(`${process.env.NEXT_PUBLIC_AI_API_LINK}/api/ai-resume-builder`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
