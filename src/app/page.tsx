@@ -866,13 +866,13 @@ export default function LandingPage() {
               &copy; {new Date().getFullYear()} UniPlace. All rights reserved.
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 Terms of Service
               </Link>
-              <Link href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/cookie-policy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 Cookie Policy
               </Link>
             </div>
