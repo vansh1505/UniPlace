@@ -90,8 +90,27 @@ const ViewDrives = () => {
     fetchDrives();
   }, []);
 
-  const handleGenerateLink = () => {
-    toast.error("This feature is not implemented yet");
+  const handleGenerateLink = async (drive: Drive) => {
+    await fetch("/api/admin/generate-link/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ driveId: drive._id }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.link) {
+          navigator.clipboard.writeText(data.link);
+          toast.success("Drive link copied to clipboard!");
+        } else {
+          toast.error("Failed to generate link");
+        }
+      })
+      .catch((err) => {
+        console.error("Error generating link:", err);
+        toast.error("Error generating link");
+      });
   };
 
   useEffect(() => {
@@ -561,7 +580,7 @@ const ViewDrives = () => {
                       variant="outline"
                       size="sm"
                       className="w-full cursor-pointer bg-transparent"
-                      onClick={handleGenerateLink}
+                      onClick={() => handleGenerateLink(drive)}
                     >
                       Generate drive link
                     </Button>
