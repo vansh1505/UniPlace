@@ -14,6 +14,7 @@ export default function RecruiterPage() {
   const [applicants, setApplicants] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showSummary, setShowSummary] = useState(false);
 
   // --------------------------
   // Step 1: Verify Token
@@ -130,11 +131,104 @@ export default function RecruiterPage() {
       </Centered>
     );
 
+  const handleReview = () => {
+    const invalid = applicants.filter(a => !a.attended && a.selected);
+    if (invalid.length > 0) {
+      toast.error(`${invalid.length} student(s) marked selected but not attended.`);
+      return;
+    }
+    setShowSummary(true);
+  };
+  const handleSave = async (finalApplicants: any[]) => {
+    toast.success("Saving changes...");
+    setShowSummary(false);
+  };
+
   // --------------------------
   // Step 4: Dashboard
   // --------------------------
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-5">
+      {showSummary && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl shadow-2xl w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto animate-in fade-in-50">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+              Review Summary
+            </h2>
+
+            <div className="overflow-x-auto border border-gray-200 dark:border-zinc-700 rounded-lg mb-6">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 sticky top-0">
+                  <tr>
+                    <th className="px-4 py-2">S.No</th>
+                    <th className="px-4 py-2">Admission No</th>
+                    <th className="px-4 py-2">Name</th>
+                    <th className="px-4 py-2 text-center">Attendance</th>
+                    <th className="px-4 py-2 text-center">Selected</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {applicants.map((s, i) => (
+                    <tr key={s._id} className="border-t border-gray-200 dark:border-zinc-700">
+                      <td className="px-4 py-2">{i + 1}</td>
+                      <td className="px-4 py-2 font-mono">{s.admnNo}</td>
+                      <td className="px-4 py-2">{s.name}</td>
+                      <td className="px-4 py-2 text-center">
+                        {s.attended ? (
+                          <span className="text-green-600 font-medium">Yes</span>
+                        ) : (
+                          <span className="text-red-500">No</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 text-center">
+                        {s.selected ? (
+                          <span className="text-green-600 font-medium">Yes</span>
+                        ) : (
+                          <span className="text-red-500">No</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="text-gray-700 dark:text-gray-300 mb-4 space-y-1 text-center">
+              <p>
+                <strong>Total:</strong> {applicants.length} students
+              </p>
+              <p>
+                <strong>Attended:</strong> {applicants.filter(a => a.attended).length}
+              </p>
+              <p>
+                <strong>Selected:</strong> {applicants.filter(a => a.selected).length}
+              </p>
+            </div>
+
+            <p className="text-sm text-gray-500 text-center mb-5">
+              Please review carefully before saving. Changes will be permanent.
+            </p>
+
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => {
+                  handleSave(applicants);
+                }}
+                className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2 rounded-lg transition"
+              >
+                Confirm & Save
+              </button>
+              <button
+                onClick={() => setShowSummary(false)}
+                className="border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+              >
+                Go Back / Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
         <header className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b pb-5 mb-6">
           <div>
@@ -235,7 +329,7 @@ export default function RecruiterPage() {
         </div>
         <div className="flex justify-center mt-6">
           <button
-            onClick={() => toast.success("Attendance saved (mock)!")}
+            onClick={() => handleReview()}
             className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2 rounded-lg transition flex items-center gap-2"
           >
             <CheckCircle2 className="w-5 h-5" /> Save Changes
