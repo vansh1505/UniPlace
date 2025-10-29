@@ -14,17 +14,17 @@ export async function GET(req) {
 
     const tokenDoc = await RecruiterToken.findOne({ token });
     if (!tokenDoc)
-      return new Response(JSON.stringify({ error: "invalid token" }), { status: 403 });
+      return new Response(JSON.stringify({ error: "Invalid Token" }), { status: 403 });
 
     if (tokenDoc.used)
-      return new Response(JSON.stringify({ error: "used token" }), { status: 403 });
+      return new Response(JSON.stringify({ error: "Used Token" }), { status: 403 });
 
     if (Date.now() > tokenDoc.expiresAt)
-      return new Response(JSON.stringify({ error: "expired token" }), { status: 403 });
+      return new Response(JSON.stringify({ error: "Expired Token" }), { status: 403 });
 
     const drive = await Drive.findById(tokenDoc.driveId).lean();
     if (!drive)
-      return new Response(JSON.stringify({ error: "drive not found" }), { status: 404 });
+      return new Response(JSON.stringify({ error: "Drive not found" }), { status: 404 });
 
     return new Response(
       JSON.stringify({

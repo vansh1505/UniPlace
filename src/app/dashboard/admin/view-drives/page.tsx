@@ -18,6 +18,8 @@ import {
   Search,
   Plus,
   IndianRupee,
+  Copy,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -69,6 +71,9 @@ const ViewDrives = () => {
   const [filterType, setFilterType] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [popup, setPopup] = useState(false);
+  const [popupData, setPopupData] = useState<{ link: string; accessCode: string; driveName: string }>({ link: "", accessCode: "", driveName: "" });
+  const [hrEmail, setHrEmail] = useState("");
   useEffect(() => {
     const fetchDrives = async () => {
       try {
@@ -101,8 +106,8 @@ const ViewDrives = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.link) {
-          navigator.clipboard.writeText(data.link);
-          toast.success("Drive link copied to clipboard!");
+          setPopupData({ ...data, driveName: drive.name });
+          setPopup(true);
         } else {
           toast.error("Failed to generate link");
         }
@@ -272,6 +277,100 @@ const ViewDrives = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      {popup && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+    <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-8 max-w-md w-[90%] relative transition-all duration-200 animate-in fade-in slide-in-from-bottom-4 border border-gray-100 dark:border-zinc-800">
+      
+      <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white text-center">
+        Drive Link Generated
+      </h2>
+      <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">
+        for <span className="font-semibold text-gray-800 dark:text-gray-200">{popupData.driveName}</span>
+      </p>
+
+      <div className="bg-gray-50 dark:bg-zinc-800 rounded-lg p-4 border border-gray-200 dark:border-zinc-700 mb-4">
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 block">Generated Link</label>
+        <a
+          href={popupData.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block text-blue-600 dark:text-blue-400 underline break-all text-sm hover:text-blue-700 transition"
+        >
+          {popupData.link.substring(0, 40)}...
+        </a>
+      </div>
+
+      <div className="bg-gray-50 dark:bg-zinc-800 rounded-lg p-3 border border-gray-200 dark:border-zinc-700 flex items-center justify-between mb-4">
+        <span className="text-sm text-gray-700 dark:text-gray-200">
+          Access Code:{" "}
+          <span className="font-semibold text-gray-900 dark:text-white">{popupData.accessCode}</span>
+        </span>
+        <Copy
+          className="hover:cursor-pointer h-5 w-5 text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"
+          onClick={() => {
+            navigator.clipboard.writeText(popupData.accessCode);
+            toast.success("Access code copied!");
+          }}
+        />
+      </div>
+
+      {/* HR Email Input */}
+      <div className="mb-5">
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 block mb-2">
+          Enter HR Email ID
+        </label>
+        <input
+          type="email"
+          placeholder="hr@example.com"
+          value={hrEmail}
+          onChange={(e) => setHrEmail(e.target.value)}
+          className="w-full p-2.5 rounded-lg border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
+        />
+      </div>
+
+      {/* Send via Email (Dynamic) */}
+      <button
+        onClick={() => {
+          if (!hrEmail) return toast.error("Please enter HR email first!");
+          const subject = encodeURIComponent(`UniPlace Drive Access Link for ${popupData.driveName}`);
+          const body = encodeURIComponent(
+            `Here is the link to the placement drive:\n${popupData.link}\n\nAccess Code: ${popupData.accessCode} \n\nPlease keep this information confidential.`
+          );
+          window.location.href = `mailto:${hrEmail}?subject=${subject}&body=${body}`;
+        }}
+        className="block text-center w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition mb-4 cursor-pointer"
+      >
+        <span className="flex items-center justify-center gap-2"><Mail /> Send via Email</span>
+      </button>
+
+      <div className="flex justify-center gap-3">
+        <Button
+          onClick={() => {
+            navigator.clipboard.writeText(
+              `Link: ${popupData.link}\nAccess Code: ${popupData.accessCode}`
+            );
+            toast.success("Copied both link & code!");
+          }}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium cursor-pointer"
+        >
+          Copy Both
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => setPopup(false)}
+          className="border-gray-300 text-gray-700 dark:text-gray-200 dark:hover:bg-zinc-800 cursor-pointer"
+        >
+          Close
+        </Button>
+      </div>
+
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-5 text-center">
+        Share this link and access code securely with the recruiter only.
+      </p>
+    </div>
+  </div>
+)}
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -438,7 +537,7 @@ const ViewDrives = () => {
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                        <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden p-2">
                           {drive.logoLink ? (
                             <img
                               src={drive.logoLink}
