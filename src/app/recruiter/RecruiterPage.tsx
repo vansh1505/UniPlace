@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 export default function RecruiterPage() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const [step, setStep] = useState<"verify" | "confirm" | "dashboard">("verify");
+  const [step, setStep] = useState<"verify" | "confirm" | "dashboard" | "submitted">("verify");
   const [accessCode, setAccessCode] = useState("");
   const [drive, setDrive] = useState<any>({});
   const [applicants, setApplicants] = useState<any[]>([]);
@@ -131,6 +131,31 @@ export default function RecruiterPage() {
       </Centered>
     );
 
+  if (step === "submitted")
+    return (
+      <Centered>
+        <div className="bg-white shadow-lg rounded-2xl p-8 w-[90%] max-w-md text-center">
+          <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            Submission Successful
+          </h1>
+          <p className="text-gray-600 mb-6">
+            Thank you for submitting the results for{" "}
+            <span className="font-semibold">{drive.companyName}</span> drive.
+          </p>
+          <p className="text-sm text-gray-500 mb-4">
+            CCPD will now review and finalize your submission.
+          </p>
+          <button
+            onClick={() => window.close()}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition"
+          >
+            Close Window
+          </button>
+        </div>
+      </Centered>
+    );
+
   const handleReview = () => {
     const invalid = applicants.filter(a => !a.attended && a.selected);
     if (invalid.length > 0) {
@@ -142,6 +167,7 @@ export default function RecruiterPage() {
   const handleSave = async (finalApplicants: any[]) => {
     toast.success("Saving changes...");
     setShowSummary(false);
+    setStep("submitted");
   };
 
   // --------------------------
