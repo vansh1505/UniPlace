@@ -151,7 +151,7 @@ export function ResumeAnalytics({ resumeURL }: { resumeURL: string }) {
           </div>
         </div>
         <p className="text-xs mt-8">Powered by <a className="text-blue-600 hover:underline" target="_blank" href="https://github.com/vansh1505/resume-ai-parser">AI Resume Parser</a></p>
-        <p className="text-xs mt-1">Using Gemini 1.5 flash</p>
+        <p className="text-xs mt-1">Using Gemini 2.5 flash</p>
       </div>
     </div>
   );
