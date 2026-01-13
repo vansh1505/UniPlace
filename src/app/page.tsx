@@ -271,7 +271,7 @@ export default function LandingPage() {
         </section>
 
         {/* Logos Section */}
-        <section className="w-full py-12 border-y bg-muted/30">
+        {/* <section className="w-full py-12 border-y bg-muted/30">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <p className="text-sm font-medium text-muted-foreground">Trusted by innovative Universities worldwide</p>
@@ -289,13 +289,13 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Features Section */}
         <FeatBento />
 
         {/* How It Works Section */}
-        <section className="w-full py-20 md:py-32 bg-muted/30 relative overflow-hidden">
+        <section id="how-it-works" className="w-full py-20 md:py-32 bg-muted/30 relative overflow-hidden">
           <div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-black bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_40%,transparent_100%)]"></div>
 
           <div className="container px-4 md:px-6 relative">
@@ -304,7 +304,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col items-center justify-center space-y-4 text-center mb-16"
+              className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
             >
               <Badge className="rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
                 How It Works
@@ -313,48 +313,157 @@ export default function LandingPage() {
                 A Seamless Journey from Registration to Placement
               </h2>
               <p className="max-w-[800px] text-muted-foreground md:text-lg">
-                Students, recruiters, and placement cells connect effortlessly—register, apply, shortlist, and track results with complete transparency and automation.
+                UniPlace replaces fragmented emails, spreadsheets, and manual coordination with a single, scalable system that ensures transparency, accuracy, and efficiency.
               </p>
-
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8 md:gap-12 relative">
-              <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-border to-transparent -translate-y-1/2 z-0"></div>
+            <Tabs defaultValue="students" className="w-full max-w-5xl mx-auto">
+              <div className="flex justify-center mb-10">
+                <TabsList className="rounded-full p-1 h-auto flex-wrap justify-center gap-1">
+                  <TabsTrigger value="students" className="rounded-full px-4 md:px-6 py-2">
+                    <Users className="size-4 mr-2" />
+                    For Students
+                  </TabsTrigger>
+                  <TabsTrigger value="companies" className="rounded-full px-4 md:px-6 py-2">
+                    <Layers className="size-4 mr-2" />
+                    For Companies
+                  </TabsTrigger>
+                  <TabsTrigger value="universities" className="rounded-full px-4 md:px-6 py-2">
+                    <Shield className="size-4 mr-2" />
+                    For Universities
+                  </TabsTrigger>
+                </TabsList>
+              </div>
 
-              {[
-                {
-                  step: "01",
-                  title: "Create Profile",
-                  description: "Sign up with your university details and build your placement-ready profile in minutes.",
-                },
-                {
-                  step: "02",
-                  title: "Apply to Drives",
-                  description: "Browse eligible placement drives, upload your resume, and apply with a single click.",
-                },
-                {
-                  step: "03",
-                  title: "Get Shortlisted",
-                  description: "Track applications, receive updates, and move through the selection process seamlessly.",
-                },
-              ]
-                .map((step, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="relative z-10 flex flex-col items-center text-center space-y-4"
-                  >
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground text-xl font-bold shadow-lg">
-                      {step.step}
-                    </div>
-                    <h3 className="text-xl font-bold">{step.title}</h3>
-                    <p className="text-muted-foreground">{step.description}</p>
-                  </motion.div>
-                ))}
-            </div>
+              <TabsContent value="students">
+                <div className="grid md:grid-cols-4 gap-6 md:gap-8 relative">
+                  <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-border to-transparent -translate-y-1/2 z-0"></div>
+                  {[
+                    {
+                      step: "01",
+                      title: "Create Your Profile",
+                      description: "Sign up securely, sync academic details (CGPA, branch, backlogs) from ERP, and upload your resume—all in one place.",
+                    },
+                    {
+                      step: "02",
+                      title: "Discover Eligible Drives",
+                      description: "UniPlace auto-filters drives based on your profile. Only see companies you qualify for—no guesswork, no wasted applications.",
+                    },
+                    {
+                      step: "03",
+                      title: "Apply & Track Progress",
+                      description: "Apply with one click, attend tests and interviews, and get real-time notifications on shortlists and round updates.",
+                    },
+                    {
+                      step: "04",
+                      title: "Get Placed",
+                      description: "Track final selections, view offer details, and manage your placement outcomes—all from your dashboard.",
+                    },
+                  ].map((step, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.1 }}
+                      className="relative z-10 flex flex-col items-center text-center space-y-4"
+                    >
+                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground text-lg font-bold shadow-lg">
+                        {step.step}
+                      </div>
+                      <h3 className="text-lg font-bold">{step.title}</h3>
+                      <p className="text-sm text-muted-foreground max-w-[220px]">{step.description}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="companies">
+                <div className="grid md:grid-cols-4 gap-6 md:gap-8 relative">
+                  <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-border to-transparent -translate-y-1/2 z-0"></div>
+                  {[
+                    {
+                      step: "01",
+                      title: "Register & Get Verified",
+                      description: "Sign up on UniPlace and get verified by the placement cell to ensure authenticity and trust.",
+                    },
+                    {
+                      step: "02",
+                      title: "Create Placement Drives",
+                      description: "Define job roles, eligibility criteria (CGPA, branch, year), deadlines, and selection process details.",
+                    },
+                    {
+                      step: "03",
+                      title: "Access Eligible Candidates",
+                      description: "UniPlace auto-filters students. View profiles, resumes, and academic details—no manual screening needed.",
+                    },
+                    {
+                      step: "04",
+                      title: "Hire & Report",
+                      description: "Manage rounds, shortlist candidates, and submit final selections with structured records for compliance.",
+                    },
+                  ].map((step, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.1 }}
+                      className="relative z-10 flex flex-col items-center text-center space-y-4"
+                    >
+                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground text-lg font-bold shadow-lg">
+                        {step.step}
+                      </div>
+                      <h3 className="text-lg font-bold">{step.title}</h3>
+                      <p className="text-sm text-muted-foreground max-w-[220px]">{step.description}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="universities">
+                <div className="grid md:grid-cols-4 gap-6 md:gap-8 relative">
+                  <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-border to-transparent -translate-y-1/2 z-0"></div>
+                  {[
+                    {
+                      step: "01",
+                      title: "Onboard & Integrate",
+                      description: "Set up UniPlace with your placement rules and sync student data from ERP—ensuring zero mismatch and a single source of truth.",
+                    },
+                    {
+                      step: "02",
+                      title: "Verify & Approve",
+                      description: "Review and verify companies before they go live. Approve drives to ensure policy compliance and fair opportunity distribution.",
+                    },
+                    {
+                      step: "03",
+                      title: "Monitor & Manage",
+                      description: "Track applicants, shortlists, rounds, attendance, and results in real-time from a centralized dashboard.",
+                    },
+                    {
+                      step: "04",
+                      title: "Report & Audit",
+                      description: "Access complete records for applications, performance, and outcomes. Generate reports for audits and accreditation.",
+                    },
+                  ].map((step, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.1 }}
+                      className="relative z-10 flex flex-col items-center text-center space-y-4"
+                    >
+                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-secondary to-secondary/70 text-secondary-foreground text-lg font-bold shadow-lg">
+                        {step.step}
+                      </div>
+                      <h3 className="text-lg font-bold">{step.title}</h3>
+                      <p className="text-sm text-muted-foreground max-w-[220px]">{step.description}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
 
