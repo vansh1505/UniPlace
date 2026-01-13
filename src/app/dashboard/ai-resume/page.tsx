@@ -226,7 +226,7 @@ export default function AIResumeBuilderPage() {
               <Button>
                 <PDFDownloadLink
                   document={<ResumePDF user={resumeData} />}
-                  fileName={`resume_${user.name.replace(/\s+/g, "_") || "default"}.pdf`}
+                  fileName={`resume_${user.name.replace(/\s+/g, "_") || "resume"}.pdf`}
                 >
                   {({ loading }) =>
                     loading ? "Generating PDF..." : "Download Resume"

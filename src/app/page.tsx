@@ -25,6 +25,8 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useTheme } from "next-themes"
+import FeatBento from "@/components/featBento"
+import Footer from "@/components/Footer"
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -290,50 +292,7 @@ export default function LandingPage() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="w-full py-20 md:py-32">
-          <div className="container px-4 md:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
-            >
-              <Badge className="rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
-                Features
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                Everything You Need for Smarter Placements
-              </h2>
-              <p className="max-w-[800px] text-muted-foreground md:text-lg">
-                UniPlace brings together students, recruiters, and placement cells on one platform—automating eligibility, simplifying applications, and ensuring a seamless campus hiring experience.
-              </p>
-
-            </motion.div>
-
-            <motion.div
-              variants={container}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {features.map((feature, i) => (
-                <motion.div key={i} variants={item}>
-                  <Card className="h-full overflow-hidden border-border/40 bg-gradient-to-b from-background to-muted/10 backdrop-blur transition-all hover:shadow-md">
-                    <CardContent className="p-6 flex flex-col h-full">
-                      <div className="size-10 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary mb-4">
-                        {feature.icon}
-                      </div>
-                      <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                      <p className="text-muted-foreground">{feature.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
+        <FeatBento />
 
         {/* How It Works Section */}
         <section className="w-full py-20 md:py-32 bg-muted/30 relative overflow-hidden">
@@ -348,14 +307,14 @@ export default function LandingPage() {
               className="flex flex-col items-center justify-center space-y-4 text-center mb-16"
             >
               <Badge className="rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
-  How It Works
-</Badge>
-<h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-  A Seamless Journey from Registration to Placement
-</h2>
-<p className="max-w-[800px] text-muted-foreground md:text-lg">
-  Students, recruiters, and placement cells connect effortlessly—register, apply, shortlist, and track results with complete transparency and automation.
-</p>
+                How It Works
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+                A Seamless Journey from Registration to Placement
+              </h2>
+              <p className="max-w-[800px] text-muted-foreground md:text-lg">
+                Students, recruiters, and placement cells connect effortlessly—register, apply, shortlist, and track results with complete transparency and automation.
+              </p>
 
             </motion.div>
 
@@ -363,38 +322,38 @@ export default function LandingPage() {
               <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-border to-transparent -translate-y-1/2 z-0"></div>
 
               {[
-  {
-    step: "01",
-    title: "Create Profile",
-    description: "Sign up with your university details and build your placement-ready profile in minutes.",
-  },
-  {
-    step: "02",
-    title: "Apply to Drives",
-    description: "Browse eligible placement drives, upload your resume, and apply with a single click.",
-  },
-  {
-    step: "03",
-    title: "Get Shortlisted",
-    description: "Track applications, receive updates, and move through the selection process seamlessly.",
-  },
-]
-.map((step, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="relative z-10 flex flex-col items-center text-center space-y-4"
-                >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground text-xl font-bold shadow-lg">
-                    {step.step}
-                  </div>
-                  <h3 className="text-xl font-bold">{step.title}</h3>
-                  <p className="text-muted-foreground">{step.description}</p>
-                </motion.div>
-              ))}
+                {
+                  step: "01",
+                  title: "Create Profile",
+                  description: "Sign up with your university details and build your placement-ready profile in minutes.",
+                },
+                {
+                  step: "02",
+                  title: "Apply to Drives",
+                  description: "Browse eligible placement drives, upload your resume, and apply with a single click.",
+                },
+                {
+                  step: "03",
+                  title: "Get Shortlisted",
+                  description: "Track applications, receive updates, and move through the selection process seamlessly.",
+                },
+              ]
+                .map((step, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    className="relative z-10 flex flex-col items-center text-center space-y-4"
+                  >
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground text-xl font-bold shadow-lg">
+                      {step.step}
+                    </div>
+                    <h3 className="text-xl font-bold">{step.title}</h3>
+                    <p className="text-muted-foreground">{step.description}</p>
+                  </motion.div>
+                ))}
             </div>
           </div>
         </section>
@@ -413,69 +372,69 @@ export default function LandingPage() {
                 Testimonials
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-  Trusted by Students, Recruiters & Universities
-</h2>
-<p className="max-w-[800px] text-muted-foreground md:text-lg">
-  See how UniPlace is transforming campus placements with seamless automation, transparency, and results that matter.
-</p>
+                Trusted by Students, Recruiters & Universities
+              </h2>
+              <p className="max-w-[800px] text-muted-foreground md:text-lg">
+                See how UniPlace is transforming campus placements with seamless automation, transparency, and results that matter.
+              </p>
 
             </motion.div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[
-  {
-    quote:
-      "UniPlace has completely streamlined our placement process. From eligibility checks to shortlisting, everything is faster and more transparent.",
-    author: "Anjali Verma",
-    role: "CCPD Coordinator, Galgotias University",
-    rating: 5,
-  },
-  {
-    quote:
-      "Applying to drives is now effortless. I can see only the companies I’m eligible for and track my applications without confusion.",
-    author: "Rohit Sharma",
-    role: "Final-Year B.Tech Student",
-    rating: 5,
-  },
-  {
-    quote:
-      "As a recruiter, UniPlace saves us hours of manual filtering. We get direct access to the right candidates, making hiring smooth and efficient.",
-    author: "Neha Kapoor",
-    role: "HR Manager, Infosys",
-    rating: 5,
-  }
-]
-.map((testimonial, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.05 }}
-                >
-                  <Card className="h-full overflow-hidden border-border/40 bg-gradient-to-b from-background to-muted/10 backdrop-blur transition-all hover:shadow-md">
-                    <CardContent className="p-6 flex flex-col h-full">
-                      <div className="flex mb-4">
-                        {Array(testimonial.rating)
-                          .fill(0)
-                          .map((_, j) => (
-                            <Star key={j} className="size-4 text-yellow-500 fill-yellow-500" />
-                          ))}
-                      </div>
-                      <p className="text-lg mb-6 flex-grow">{testimonial.quote}</p>
-                      <div className="flex items-center gap-4 mt-auto pt-4 border-t border-border/40">
-                        <div className="size-10 rounded-full bg-muted flex items-center justify-center text-foreground font-medium">
-                          {testimonial.author.charAt(0)}
+                {
+                  quote:
+                    "UniPlace has completely streamlined our placement process. From eligibility checks to shortlisting, everything is faster and more transparent.",
+                  author: "Anjali Verma",
+                  role: "CCPD Coordinator, Galgotias University",
+                  rating: 5,
+                },
+                {
+                  quote:
+                    "Applying to drives is now effortless. I can see only the companies I’m eligible for and track my applications without confusion.",
+                  author: "Rohit Sharma",
+                  role: "Final-Year B.Tech Student",
+                  rating: 5,
+                },
+                {
+                  quote:
+                    "As a recruiter, UniPlace saves us hours of manual filtering. We get direct access to the right candidates, making hiring smooth and efficient.",
+                  author: "Neha Kapoor",
+                  role: "HR Manager, Infosys",
+                  rating: 5,
+                }
+              ]
+                .map((testimonial, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.05 }}
+                  >
+                    <Card className="h-full overflow-hidden border-border/40 bg-gradient-to-b from-background to-muted/10 backdrop-blur transition-all hover:shadow-md">
+                      <CardContent className="p-6 flex flex-col h-full">
+                        <div className="flex mb-4">
+                          {Array(testimonial.rating)
+                            .fill(0)
+                            .map((_, j) => (
+                              <Star key={j} className="size-4 text-yellow-500 fill-yellow-500" />
+                            ))}
                         </div>
-                        <div>
-                          <p className="font-medium">{testimonial.author}</p>
-                          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                        <p className="text-lg mb-6 flex-grow">{testimonial.quote}</p>
+                        <div className="flex items-center gap-4 mt-auto pt-4 border-t border-border/40">
+                          <div className="size-10 rounded-full bg-muted flex items-center justify-center text-foreground font-medium">
+                            {testimonial.author.charAt(0)}
+                          </div>
+                          <div>
+                            <p className="font-medium">{testimonial.author}</p>
+                            <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
             </div>
           </div>
         </section>
@@ -702,60 +661,60 @@ export default function LandingPage() {
             <div className="mx-auto max-w-3xl">
               <Accordion type="single" collapsible className="w-full">
                 {[
-  {
-    question: "How do students sign up?",
-    answer:
-      "Students can create an account using their university email and admission details. Once verified, they get access to eligible placement drives instantly.",
-  },
-  {
-    question: "Can recruiters post multiple drives?",
-    answer:
-      "Yes, recruiters can register multiple placement drives with specific eligibility criteria, job details, and timelines.",
-  },
-  {
-    question: "How are eligible students filtered?",
-    answer:
-      "UniPlace automatically syncs student data like CGPA, backlogs, and semester, then filters students who meet company-specific eligibility criteria.",
-  },
-  {
-    question: "Can universities monitor the entire process?",
-    answer:
-      "Yes, placement cells have complete visibility—from student applications to recruiter shortlists and final results—ensuring full transparency.",
-  },
-  {
-    question: "How secure is student data?",
-    answer:
-      "All data is encrypted in transit and at rest. UniPlace follows strict compliance practices and ensures privacy of both students and recruiters.",
-  },
-  {
-    question: "What kind of support does UniPlace provide?",
-    answer:
-      "Our support team assists placement cells, recruiters, and students with onboarding, troubleshooting, and training. We also provide detailed documentation and chat support.",
-  },
-]
-.map((faq, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: i * 0.05 }}
-                  >
-                    <AccordionItem value={`item-${i}`} className="border-b border-border/40 py-2">
-                      <AccordionTrigger className="text-left font-medium hover:no-underline">
-                        {faq.question}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-muted-foreground">{faq.answer}</AccordionContent>
-                    </AccordionItem>
-                  </motion.div>
-                ))}
+                  {
+                    question: "How do students sign up?",
+                    answer:
+                      "Students can create an account using their university email and admission details. Once verified, they get access to eligible placement drives instantly.",
+                  },
+                  {
+                    question: "Can recruiters post multiple drives?",
+                    answer:
+                      "Yes, recruiters can register multiple placement drives with specific eligibility criteria, job details, and timelines.",
+                  },
+                  {
+                    question: "How are eligible students filtered?",
+                    answer:
+                      "UniPlace automatically syncs student data like CGPA, backlogs, and semester, then filters students who meet company-specific eligibility criteria.",
+                  },
+                  {
+                    question: "Can universities monitor the entire process?",
+                    answer:
+                      "Yes, placement cells have complete visibility—from student applications to recruiter shortlists and final results—ensuring full transparency.",
+                  },
+                  {
+                    question: "How secure is student data?",
+                    answer:
+                      "All data is encrypted in transit and at rest. UniPlace follows strict compliance practices and ensures privacy of both students and recruiters.",
+                  },
+                  {
+                    question: "What kind of support does UniPlace provide?",
+                    answer:
+                      "Our support team assists placement cells, recruiters, and students with onboarding, troubleshooting, and training. We also provide detailed documentation and chat support.",
+                  },
+                ]
+                  .map((faq, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: i * 0.05 }}
+                    >
+                      <AccordionItem value={`item-${i}`} className="border-b border-border/40 py-2">
+                        <AccordionTrigger className="text-left font-medium hover:no-underline">
+                          {faq.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-muted-foreground">{faq.answer}</AccordionContent>
+                      </AccordionItem>
+                    </motion.div>
+                  ))}
               </Accordion>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="w-full py-20 md:py-32 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground relative overflow-hidden">
+        {/* <section className="w-full py-20 md:py-32 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
           <div className="absolute -top-24 -left-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
@@ -792,93 +751,11 @@ export default function LandingPage() {
                   </Button>
                 </Link>
               </div>
-              {/* <p className="text-sm text-primary-foreground/80 mt-4">
-                No credit card required. 14-day free trial. Cancel anytime.
-              </p> */}
             </motion.div>
           </div>
-        </section>
+        </section> */}
       </main>
-      <footer className="w-full border-t bg-background/95 backdrop-blur-sm">
-        <div className="container flex flex-col gap-8 px-4 py-10 md:px-6 lg:py-16">
-          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 font-bold">
-                <Image src="/logo.png" alt="UniPlace Logo" width={128} height={64} />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Streamline your placement journey with UniPlace. Boost student engagement, simplify recruitment, and scale your campus drives.
-              </p>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold">Product</h4>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Features
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Integrations
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    API
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold">Company</h4>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Careers
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    Terms of Service
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 sm:flex-row justify-between items-center border-t border-border/40 pt-8">
-            <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} UniPlace. All rights reserved.
-            </p>
-            <div className="flex gap-4">
-              <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                Terms of Service
-              </Link>
-              <Link href="/cookie-policy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                Cookie Policy
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

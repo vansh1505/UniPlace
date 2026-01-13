@@ -6,6 +6,7 @@ import {
   Text,
   View,
   StyleSheet,
+  PDFDownloadLink
 } from "@react-pdf/renderer";
 
 // Styles
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 14, fontWeight: "bold", color: "#0a66c2", marginBottom: 6, borderBottom: "1pt solid #0a66c2", paddingBottom: 2 },
   item: { marginBottom: 6 },
   itemHeader: { fontSize: 12, fontWeight: "bold" },
+  itemSub: { fontSize: 11, color: "grey" },
   subText: { fontSize: 11, color: "grey" },
   bullet: { marginLeft: 10, fontSize: 11 },
 });
@@ -95,21 +97,19 @@ export default function ResumePDF({ user }: { user: any }) {
         )}
 
         {/* Education */}
-        {resume.education?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
-            {resume.education.map((edu: any, idx: number) => (
-              <View key={idx} style={styles.item}>
-                <Text style={styles.itemHeader}>
-                  {edu.degree} {edu.major} — {edu.institution}
-                </Text>
-                <Text style={styles.subText}>
-                  Graduation: {edu.graduation_date} | GPA: {edu.gpa}
-                </Text>
-              </View>
-            ))}
-          </View>
-        )}
+       {Array.isArray(resume.education) &&
+  resume.education.map((edu: any, idx: number) => (
+    <View key={idx} style={styles.item}>
+      <Text style={styles.itemHeader}>
+        {edu.degree} in {edu.branch} — {edu.institution}
+      </Text>
+      <Text style={styles.itemSub}>
+        {edu.year_of_graduation} | CGPA: {edu.cgpa}
+      </Text>
+    </View>
+  ))}
+
+
 
         {/* Achievements */}
         {resume.additional_sections?.achievements?.length > 0 && (
