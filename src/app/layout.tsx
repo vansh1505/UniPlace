@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: "UniPlace - Your Gateway to Smarter Placements",
   description:
     "Simplify your campus placement journey with UniPlace — manage company drives, track your applications, get notified, and prepare smartly for career opportunities.",
+
+    manifest: "/manifest.json",
+    themeColor: "#020617",
   metadataBase: new URL("https://uniplace.vercel.app"),
   openGraph: {
     title: "UniPlace - Smarter Campus Placements",
