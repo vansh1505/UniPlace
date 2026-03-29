@@ -11,6 +11,7 @@ export default function RecruiterPage() {
   const [step, setStep] = useState<"verify" | "confirm" | "dashboard" | "submitted">("verify");
   const [accessCode, setAccessCode] = useState("");
   const [drive, setDrive] = useState<any>({});
+  const [roundName, setRoundName] = useState<string>("");
   const [applicants, setApplicants] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -55,6 +56,7 @@ export default function RecruiterPage() {
 
       if (res.ok) {
         setDrive(data.drive);
+        setRoundName(data.drive.roundName);
         setApplicants(data.applicants);
         setStep("dashboard");
       } else {
@@ -164,10 +166,33 @@ export default function RecruiterPage() {
     }
     setShowSummary(true);
   };
+
   const handleSave = async (finalApplicants: any[]) => {
-    toast.success("Saving changes...");
-    setShowSummary(false);
-    setStep("submitted");
+    setLoading(true);
+    const formatted = finalApplicants.map(a => ({
+      applicationId: a._id,
+      attendance: !!a.attended,
+      status: a.selected ? "selected" : "rejected"
+    }));
+
+    try {
+      const res = await fetch(`/api/recruiter/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ driveId: drive._id, roundName, updates: formatted }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Results saved successfully!");
+        setStep("submitted");
+      } else {
+        toast.error(data.error || "Failed to save results");
+      }
+    } catch {
+      toast.error("Network error while saving results");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // --------------------------
@@ -274,6 +299,9 @@ export default function RecruiterPage() {
         <div className="m-3 bg-gray-100 px-4 py-2 rounded-lg text-sm text-gray-700 flex justify-between items-center">
           <p>
             Drive ID: <span className="font-semibold">{drive._id}</span>
+          </p>
+          <p>
+            Current Round:<span className="font-semibold text-blue-600">{roundName}</span>
           </p>
           <p>
             Expires in{" "}

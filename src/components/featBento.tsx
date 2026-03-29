@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react"
 import { BarChart3, MessageSquare, Shield, Filter, Headphones, Settings } from "lucide-react"
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export default function FeatBento() {
   const containerVariants = {
@@ -63,31 +64,12 @@ export default function FeatBento() {
             </div>
 
             {/* Chart Illustration */}
-            <div className="absolute right-8 top-1/2 -translate-y-1/2 w-48 h-32">
-              <svg className="w-full h-full" viewBox="0 0 200 130">
-                <motion.polyline
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                  points="20,100 60,80 100,60 140,50 180,30"
-                  fill="none"
-                  stroke="#3b82f6"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-                {[20, 60, 100, 140, 180].map((x, i) => (
-                  <motion.circle
-                    key={i}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.5 + i * 0.2, duration: 0.3 }}
-                    cx={x}
-                    cy={[100, 80, 60, 50, 30][i]}
-                    r="5"
-                    fill="#3b82f6"
-                  />
-                ))}
-              </svg>
+            <div className="absolute right-10 -bottom-1/6 -translate-y-1/2 w-64">
+              <DotLottieReact
+                src="/Analytics.lottie"
+                loop
+                autoplay
+              />
             </div>
           </motion.div>
 
@@ -321,44 +303,11 @@ export default function FeatBento() {
 
             {/* Integration Diagram */}
             <div className="flex items-center justify-center gap-4 mt-8">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Number.POSITIVE_INFINITY, duration: 8, ease: "linear" }}
-                className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center"
-              >
-                <Settings className="w-8 h-8 text-blue-600" />
-              </motion.div>
-
-              <motion.div animate={{ x: [0, 5, 0] }} transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}>
-                <svg className="w-8 h-8 text-blue-500" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M13 7L19 12L13 17M5 12H19"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </motion.div>
-
-              <div className="space-y-2">
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium"
-                >
-                  University ERP
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="bg-gray-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium"
-                >
-                  Placement Cell
-                </motion.div>
-              </div>
+              <DotLottieReact
+              src="/erp-integration.lottie"
+              loop
+              autoplay
+            />
             </div>
           </motion.div>
         </motion.div>

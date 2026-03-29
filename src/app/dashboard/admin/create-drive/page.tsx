@@ -94,6 +94,7 @@ export default function CreateDrivePage() {
     time: "",
     recurimentType: "",
     examLocation: "",
+    roundDetails: [] as { name: string }[],
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -160,6 +161,9 @@ const handleArrayRemove = (field: keyof typeof formData, value: string) => {
         minBacklogs: Number.parseInt(formData.minBacklogs),
         date: formData.date?.toISOString(),
         isActive: true,
+        roundDetails: formData.roundDetails.map((round, index) => ({
+          name: round.name,
+        })),
       }
 
       const response = await fetch("/api/admin/create-drive", {
@@ -167,7 +171,7 @@ const handleArrayRemove = (field: keyof typeof formData, value: string) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submitData),
       })
-
+      
       if (response.ok) {
         toast.success("Drive created successfully!")
       } else {
@@ -550,6 +554,54 @@ const handleArrayRemove = (field: keyof typeof formData, value: string) => {
                       />
                     </div>
                   </div>
+                </div>
+                <div>
+                  <Label>Interview Rounds *</Label>
+                  <div className="space-y-3">
+                    {formData.roundDetails?.map((round, index) => (
+                      <div key={index} className="flex gap-2 items-end">
+                        <div className="flex-1">
+                          <Label className="text-sm">Round {index + 1} Name</Label>
+                          <Input
+                            value={round.name || ""}
+                            onChange={(e) => {
+                              const newRounds = [...(formData.roundDetails || [])];
+                              newRounds[index] = { ...round, name: e.target.value };
+                              setFormData((prev) => ({ ...prev, roundDetails: newRounds }));
+                            }}
+                            placeholder="e.g., Technical, HR, Group Discussion"
+                            required
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            const newRounds = formData.roundDetails?.filter((_, i) => i !== index) || [];
+                            setFormData((prev) => ({ ...prev, roundDetails: newRounds }));
+                          }}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        roundDetails: [...(prev.roundDetails || []), { name: "" }],
+                      }));
+                    }}
+                    className="mt-2"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add Round
+                  </Button>
                 </div>
               </CardContent>
             </Card>

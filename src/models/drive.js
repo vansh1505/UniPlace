@@ -85,7 +85,19 @@ const driveSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-    }
+    },
+    roundDetails: [
+        {
+        name: {
+            type: String,
+            required: true
+        },
+        isComplete: {
+            type: Boolean,
+            default: false
+        }
+        }
+    ]
 }, {
     timestamps: true,
 });

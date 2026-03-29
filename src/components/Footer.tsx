@@ -109,13 +109,19 @@ export default function Footer() {
           </p>
           <nav className="flex gap-4 sm:gap-8">
             <Link
-              href="#privacy"
+              href="/privacy"
               className="text-slate-400 hover:text-white transition-all duration-300 font-light"
             >
               Privacy Policy
             </Link>
             <Link
-              href="#terms"
+              href="/cookie-policy"
+              className="text-slate-400 hover:text-white transition-all duration-300 font-light"
+            >
+              Cookie Policy
+            </Link>
+            <Link
+              href="/terms"
               className="text-slate-400 hover:text-white transition-all duration-300 font-light"
             >
               Terms & Conditions

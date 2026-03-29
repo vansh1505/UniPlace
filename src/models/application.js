@@ -41,9 +41,30 @@ const applicationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['applied', 'interviewing', 'offered', 'rejected'],
+        enum: ['applied', 'in_progress', 'offered', 'rejected'],
         default: 'applied',
     },
+    attendance: {
+        type: Boolean,
+        default: false,
+    },
+    rounds: [
+    {
+        roundIndex: {
+            type: Number,
+            required: true
+        },
+        attendance: {
+            type: Boolean,
+            default: false
+        },
+        status: {
+            type: String,
+            enum: ['pending', 'selected', 'rejected'],
+            default: 'pending'
+        }
+    }
+    ],
     appliedAt: {
         type: Date,
         default: Date.now,

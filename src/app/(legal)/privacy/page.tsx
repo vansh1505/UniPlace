@@ -126,7 +126,7 @@ export const metadata = {
     title: "Privacy Policy | UniPlace",
     description:
       "Understand how UniPlace handles your personal and institutional data responsibly.",
-    url: "https://uniplace.vercel.app/privacy",
+    url: "https://uniplace.verce l.app/privacy",
     siteName: "UniPlace",
     type: "article",
   },

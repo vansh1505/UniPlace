@@ -41,11 +41,13 @@ export async function POST(req) {
       .select("_id studentName admnno")
       .lean();
 
+      const activeRound = drive.roundDetails.find(r => !r.isComplete);
     const response = {
       drive: {
         companyName: drive.name,
         collegeName: drive.collegeName,
         expireAt: tokenDoc.expiresAt,
+        roundName: activeRound ? activeRound.name : "All rounds complete",
         _id: drive._id,
       },
       applicants: applications.map(a => ({

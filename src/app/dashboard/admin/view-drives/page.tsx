@@ -109,7 +109,7 @@ const ViewDrives = () => {
           setPopupData({ ...data, driveName: drive.name });
           setPopup(true);
         } else {
-          toast.error("Failed to generate link");
+          toast.error(data.error || "Error generating link");
         }
       })
       .catch((err) => {

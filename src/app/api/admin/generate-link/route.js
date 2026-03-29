@@ -1,10 +1,20 @@
 import crypto from "crypto";
 import connectDB from "@/lib/db";
 import RecruiterToken from "@/models/RecruiterToken";
+import Drive from "@/models/drive";
 
 export async function POST(req) {
   const { driveId } = await req.json();
   await connectDB();
+
+  const drive = await Drive.findById(driveId);
+  if (!drive) {
+    return new Response(JSON.stringify({ error: "Drive not found" }), { status: 404 });
+  }
+
+  if (drive.roundDetails.every(r => r.isComplete)) {
+    return new Response(JSON.stringify({ error: "All rounds are complete for this drive" }), { status: 400 });
+  }
 
   const existingToken = await RecruiterToken.findOne({ driveId, used: false }).sort({ createdAt: -1 });
   if (existingToken && existingToken.expiresAt > Date.now() && !existingToken.used) {

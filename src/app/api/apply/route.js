@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getUser } from "@/lib/auth";
 import connectDB from "@/lib/db";
+import Drive from "@/models/drive";
 import Application from "@/models/application";
 import { Resend } from 'resend';
 export async function POST(req) {
@@ -12,6 +13,12 @@ export async function POST(req) {
             return NextResponse.json({ msg: "Unauthorized" }, { status: 401 });
         }
         await connectDB();
+
+        const drive = await Drive.findById(driveId);
+
+        if (!drive) {
+          return NextResponse.json({ msg: "Drive not found" }, { status: 404 });
+        }
 
         const existing = await Application.findOne({
             driveId: driveId,
@@ -35,6 +42,11 @@ export async function POST(req) {
             position,
             status: "applied",
             appliedAt: new Date(),
+            rounds: drive.roundDetails.map((_, i) => ({
+            roundIndex: i,
+            attendance: false,
+            status: "pending"
+          }))
         });
 
         const resend = new Resend(process.env.RESEND_API_KEY);
