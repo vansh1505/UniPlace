@@ -292,7 +292,7 @@ export default function LoginPage() {
           </form>
 
           {/* Divider */}
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300" />
@@ -305,7 +305,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Social Login */}
           <div className="mt-6 grid gap-3">
             <Button
               variant="outline"
@@ -320,7 +319,7 @@ export default function LoginPage() {
               />
               Google
             </Button>
-          </div>
+          </div> */}
         </motion.div>
 
         {/* Sign Up Link */}

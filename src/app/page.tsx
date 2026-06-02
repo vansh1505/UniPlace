@@ -123,12 +123,6 @@ export default function LandingPage() {
               Testimonials
             </Link>
             <Link
-              href="#pricing"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Pricing
-            </Link>
-            <Link
               href="#faq"
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
@@ -209,9 +203,9 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="text-center max-w-3xl mx-auto mb-12"
             >
-              <Badge className="mb-4 rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
+              {/* <Badge className="mb-4 rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
                 Launching Soon
-              </Badge>
+              </Badge> */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
                 Streamlining Campus Placements, Simplifying Your Future
               </h1>
@@ -292,7 +286,9 @@ export default function LandingPage() {
         </section> */}
 
         {/* Features Section */}
-        <FeatBento />
+        <section id="features">
+          <FeatBento />
+        </section>
 
         {/* How It Works Section */}
         <section id="how-it-works" className="w-full py-20 md:py-32 bg-muted/30 relative overflow-hidden">

@@ -1,8 +1,8 @@
+import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import Drive from "@/models/drive";
-import { NextResponse } from "next/server";
-import Application from "../../../models/application";
+import Application from "@/models/application";
 
 export async function GET(req) {
     try {

@@ -29,6 +29,7 @@ export async function POST(req) {
             return NextResponse.json({ msg: "You have already applied for this drive" }, { status: 400 });
         }
 
+        
         await Application.create({
             driveId: driveId,
             studentId: user.id,
